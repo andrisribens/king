@@ -1,0 +1,125 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  html {
+    font-family: "Montserrat", sans-serif;
+    /* font-family: "Orbitron", sans-serif; */
+  }
+  
+  body {
+    background: #eee;
+    background-image: url("https://www.transparenttextures.com/patterns/tiny-grid.png");
+    /* padding: 0 16px; */
+  }
+  
+  header {
+    background-color: #f5ba13;
+    margin: auto -16px;
+    padding: 16px 32px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  }
+  
+  header h1 {
+    color: #fff;
+    font-family: "Orbitron";
+    font-weight: 700;
+    margin: 0 auto;
+  }
+  
+  header p {
+    text-align: center;
+    color: #fff;
+  }
+  
+  footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+  }
+  
+  footer p {
+    color: #ccc;
+  }
+  
+  h1 {
+    font-family: "Orbitron";
+    text-align: center;
+    font-weight: 400;
+    margin: 30px auto;
+  }
+  
+  h2 {
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  .game {
+    background: hsl(44, 92%, 52%);
+    border-radius: 7px;
+    box-shadow: 0 2px 5px #ccc;
+    padding: 10px;
+    width: 100%;
+    margin: 16px auto;
+    overflow-wrap: break-word;
+  }
+  
+  .game.isbuttonpressed {
+    background-color: #f9d571;
+  }
+  
+  .game h1 {
+    font-size: 2em;
+    color: white;
+    margin: 0 auto;
+  }
+  
+  .result {
+    background: #e7eff8;
+    border-radius: 7px;
+    box-shadow: 0 2px 5px #ccc;
+    padding: 20px;
+    width: 100%;
+    margin: 16px auto;
+    align-items: bottom;
+  }
+  
+  .first-row.result {
+    background: #fadd8d;
+    align-items: center;
+  }
+  
+  .second-row.result {
+    background: #dfdfdf;
+  }
+  
+  .third-row.result {
+    background: #fad8b5;
+  }
+  
+  .top.result p {
+    font-weight: bold;
+  }
+  
+  .game-scores {
+    margin: 50px auto;
+  }
+  
+  .winners-table {
+    margin: 50px auto;
+  }
+  
+  .positive-points {
+    color: #1976d2;
+  }
+  
+  .negative-points {
+    color: red;
+  }
+  
+  .bottom-navigation {
+    z-index: 100;
+  }
+  
