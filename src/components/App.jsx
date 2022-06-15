@@ -12,7 +12,6 @@ import WinnersTableRow from "./WinnersTableRow.jsx";
 import Divider from "@mui/material/Divider";
 import SimpleBottomNavigation from "./SimpleBottomNavigation.jsx";
 import Switch from "@mui/material/Switch";
-import { BottomNavigationAction } from "@mui/material";
 
 function App() {
   const [playerCount, setPlayerCount] = useState("");
@@ -761,13 +760,13 @@ function App() {
 
       {!playersAreSubmitted && (
         <Grid item xs={12} mt={8}>
-          <h3>What is this app for?</h3>
+          <h3>What is this website for?</h3>
           <br></br>
           <p>Do you like to play beach volleyball with your friends?</p>
           <br></br>
           <p>
-            Why not add some competitive edge and play "King of The Beach" style
-            tournament where everyone has to play against everyone. This app
+            Add a competitive edge to your game and play "King of The Beach" style
+            tournament where everyone has to compete against everyone. This website
             helps to create tournament schedule for 4 to 6 players, register
             game results and calculate the winner.
           </p>
@@ -836,7 +835,6 @@ function App() {
                 </Stack>
               </div>
               {sortedPlayerResults.map(createWinnersTable)}
-              <button onClick={refreshPage}>Push the button</button>
             </div>
           )}
         </Grid>

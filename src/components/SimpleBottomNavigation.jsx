@@ -5,11 +5,9 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import ScoreboardIcon from "@mui/icons-material/Scoreboard";
-// import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import Paper from "@mui/material/Paper";
-import { useSlotProps } from "@mui/base";
 
 function SimpleBottomNavigation(props) {
   const [value, setValue] = React.useState(0);
