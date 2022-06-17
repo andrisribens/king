@@ -1,18 +1,17 @@
 import React from "react";
 import SportsVolleyballIcon from "@mui/icons-material/SportsVolleyball";
+import logo from "../images/ball.svg";
 
 function Header() {
   return (
     <header>
-      <span>
-        <h1>
-          <SportsVolleyballIcon />
-        </h1>
-      </span>
-      <span>
+    <div className="box-centered-content">
+      <img src={logo} alt="Beach volley ball" height="30px" width="30px"/>
+    </div>
+    <div>
         <h1>King of The Beach</h1>
-        <p>Tournament App</p>
-      </span>
+        <p>Tournament Schedule & Scores</p>
+    </div>  
     </header>
   );
 }

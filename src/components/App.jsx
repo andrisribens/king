@@ -691,6 +691,11 @@ function App() {
     window.location.reload(false);
 }
 
+// const scrollToSchedule = () => {
+//   const section = document.querySelector("#schedule");
+//   section.scrollIntoView({ block: "end" });
+// };
+
   return (
     <Container maxWidth="md">
       <Header />
@@ -762,7 +767,7 @@ function App() {
         <Grid item xs={12} mt={8}>
           <h3>What is this website for?</h3>
           <br></br>
-          <p>Do you like to play beach volleyball with your friends?</p>
+          <p>Do you like to play beach volleyball with friends?</p>
           <br></br>
           <p>
             Add a competitive edge to your game and play "King of The Beach" style
@@ -781,6 +786,7 @@ function App() {
             <h1 id="schedule">Tournament Schedule</h1>
           </Grid>
           {actualSchedule.map(createGame)}
+          {/* {scrollToSchedule} */}
         </Grid>
       )}
       {playersAreSubmitted && playerCount < 6 && (
