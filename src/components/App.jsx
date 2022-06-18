@@ -12,6 +12,7 @@ import WinnersTableRow from "./WinnersTableRow.jsx";
 import Divider from "@mui/material/Divider";
 import SimpleBottomNavigation from "./SimpleBottomNavigation.jsx";
 import Switch from "@mui/material/Switch";
+import RestartDialog from "./RestartDialog";
 
 function App() {
   const [playerCount, setPlayerCount] = useState("");
@@ -593,17 +594,12 @@ function App() {
   }
 
   const [gameScores, setGameScores] = useState([]);
-  // const [newScore, setNewScore] = useState({});
 
   function addGameScore(addedScore) {
     const addAction = { action: "add" };
     const updatedAddedScore = Object.assign(addedScore, addAction);
 
-    //Add new score from wich wins and net points are extracted/calculated
-    // setNewScore(updatedAddedScore);
-
     let newScore = updatedAddedScore;
-    console.log(newScore);
 
     //Add one new game score to the array for rendering
     setGameScores((prevScores) => {
@@ -687,8 +683,10 @@ function App() {
     );
   }
 
-  function refreshPage() {
-    window.location.reload(false);
+const [isRestartDialogOpen, setIsRestarDialogOpen] = useState(false);
+
+function handleRestartDialog() {
+setIsRestarDialogOpen(!isRestartDialogOpen);
 }
 
 // const scrollToSchedule = () => {
@@ -786,7 +784,6 @@ function App() {
             <h1 id="schedule">Tournament Schedule</h1>
           </Grid>
           {actualSchedule.map(createGame)}
-          {/* {scrollToSchedule} */}
         </Grid>
       )}
       {playersAreSubmitted && playerCount < 6 && (
@@ -847,9 +844,15 @@ function App() {
       </Grid>
       <Grid container>
         <Grid item xs={12} mb={3}>
-          {gameResultsAreSubmitted && <SimpleBottomNavigation onRestart={refreshPage} />}
+          {gameResultsAreSubmitted && <SimpleBottomNavigation 
+          onRestart={handleRestartDialog}
+           />}
         </Grid>
       </Grid>
+      {isRestartDialogOpen && 
+      <RestartDialog 
+        onChange={handleRestartDialog}
+      />}
     </Container>
   );
 }

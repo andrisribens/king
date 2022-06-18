@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState} from "react";
 // import { Routes, Route, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
@@ -10,7 +10,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import Paper from "@mui/material/Paper";
 
 function SimpleBottomNavigation(props) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const scrollToSchedule = () => {
     const section = document.querySelector("#schedule");
@@ -27,8 +27,8 @@ function SimpleBottomNavigation(props) {
     section.scrollIntoView({ block: "start" });
   };
 
-  function restartTournament() {
-  props.onRestart();
+function openRestartDialog() {
+    props.onRestart();
   };
 
   return (
@@ -63,7 +63,7 @@ function SimpleBottomNavigation(props) {
           <BottomNavigationAction
             label="Restart Tournament"
             icon={<RestartAltIcon />}
-            onClick={restartTournament}
+            onClick={openRestartDialog}
           />
         </BottomNavigation>
       </Paper>
