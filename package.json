@@ -2,7 +2,7 @@
   "name": "king-of-the-beach",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://andrisribens.github.io/king",
+  "homepage": "https://kingofthebeach.me/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
