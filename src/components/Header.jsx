@@ -1,5 +1,4 @@
 import React from "react";
-import SportsVolleyballIcon from "@mui/icons-material/SportsVolleyball";
 import logo from "../images/ball.svg";
 
 function Header() {

@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useSlotProps } from '@mui/base';
 
 function RestartDialog(props) {
 
@@ -30,7 +29,7 @@ function RestartDialog(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            By clickicking "Restart" all the data will be erased.
+            By clicking "Restart" all data will be erased.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

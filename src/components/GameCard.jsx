@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 
 function GameCard(props) {
   const [isButtonPressed, setIsButtonPressed] = useState(false);
+  const [isScoreInputDone, setIsScoreInputDone] = useState(false);
 
   const [inputScore, setInputScore] = useState({
     gameNo: props.gameNo,
@@ -26,10 +27,16 @@ function GameCard(props) {
     });
   }
 
+  function handleScoreChangeWithButtonActivation(event) {
+    const { name, value } = event.target;
+    setInputScore((prevScore) => {
+      return { ...prevScore, [name]: value };
+    });
+    setIsScoreInputDone(true);
+  }
+
   function handleIsButtonPressed() {
-    // const isButtonPressed = true;
-    const q = isButtonPressed;
-    setIsButtonPressed(!q);
+    setIsButtonPressed(!isButtonPressed);
   }
 
   function submitScore() {
@@ -77,6 +84,7 @@ function GameCard(props) {
           id="filled-number"
           type="number"
           label="Team 1 score"
+          autoFocus={props.gameNo === 1}
           InputLabelProps={{
             shrink: true
           }}
@@ -97,7 +105,7 @@ function GameCard(props) {
             shrink: true
           }}
           variant="filled"
-          onChange={handleScoreChange}
+          onChange={handleScoreChangeWithButtonActivation}
           value={inputScore.team2Score}
           name="team2Score"
           teamPlayer1={props.team2FirstPlayer}
@@ -107,7 +115,7 @@ function GameCard(props) {
       </Stack>
       <Stack>
         <Button
-          // disabled={isButtonPressed}
+          disabled={!isScoreInputDone}
           variant={!isButtonPressed ? "contained" : "outlined"}
           size="large"
           onClick={!isButtonPressed ? submitScore : editScore}
