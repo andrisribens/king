@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/king/static/js/main.3be81f97.js",
+    "main.js": "/king/static/js/main.bb4adeda.js",
     "static/media/ball.svg": "/king/static/media/ball.63689b15bf8593f35ba19fe0eb7ec4e0.svg",
     "index.html": "/king/index.html",
-    "main.3be81f97.js.map": "/king/static/js/main.3be81f97.js.map"
+    "main.bb4adeda.js.map": "/king/static/js/main.bb4adeda.js.map"
   },
   "entrypoints": [
-    "static/js/main.3be81f97.js"
+    "static/js/main.bb4adeda.js"
   ]
 }
