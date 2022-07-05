@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-// import { Routes, Route, Link } from "react-router-dom";
+import * as htmlToImage from 'html-to-image';
+import { toJpeg } from 'html-to-image';
 import Header from "./Header";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
@@ -11,8 +12,10 @@ import ResultCard from "./ResultCard.jsx";
 import WinnersTableRow from "./WinnersTableRow.jsx";
 import Divider from "@mui/material/Divider";
 import SimpleBottomNavigation from "./SimpleBottomNavigation.jsx";
-import Switch from "@mui/material/Switch";
 import RestartDialog from "./RestartDialog";
+import IconButton from '@mui/material/IconButton';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DownloadIcon from '@mui/icons-material/Download';
 
 function App() {
   const [playerCount, setPlayerCount] = useState("");
@@ -80,7 +83,7 @@ function App() {
   const player5 = players.player5;
   const player6 = players.player6;
 
-  //Two rounds of four player schedule scheme
+  //Three rounds of four player schedule scheme
   const fourPlayerSchedule = [
     {
       gameNo: 1,
@@ -123,45 +126,66 @@ function App() {
       team1SecondPlayer: player2,
       team2FirstPlayer: player3,
       team2SecondPlayer: player4
-    }
-  ];
-
-  //Two rounds of five player schedule scheme
-  const fivePlayerSchedule = [
+    },
     {
-      gameNo: 1,
+      gameNo: 7,
       team1FirstPlayer: player1,
       team1SecondPlayer: player4,
       team2FirstPlayer: player2,
       team2SecondPlayer: player3
     },
     {
-      gameNo: 2,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player2
-    },
-    {
-      gameNo: 3,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player5
-    },
-    {
-      gameNo: 4,
+      gameNo: 8,
       team1FirstPlayer: player1,
+      team1SecondPlayer: player3,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player4
+    },
+    {
+      gameNo: 9,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player2,
+      team2FirstPlayer: player3,
+      team2SecondPlayer: player4
+    }
+  ];
+
+  //Three rounds of five player schedule scheme
+  const fivePlayerSchedule = [
+    {
+      gameNo: 1,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player2,
+      team2FirstPlayer: player3,
+      team2SecondPlayer: player4
+    },
+    {
+      gameNo: 2,
+      team1FirstPlayer: player2,
       team1SecondPlayer: player3,
       team2FirstPlayer: player4,
       team2SecondPlayer: player5
     },
     {
-      gameNo: 5,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player5,
+      gameNo: 3,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player4,
       team2FirstPlayer: player3,
+      team2SecondPlayer: player5
+    },
+    {
+      gameNo: 4,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player5,
+      team2FirstPlayer: player2,
       team2SecondPlayer: player4
+    },
+    {
+      gameNo: 5,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player3,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player5
     },
     {
       gameNo: 6,
@@ -172,31 +196,66 @@ function App() {
     },
     {
       gameNo: 7,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player2
-    },
-    {
-      gameNo: 8,
       team1FirstPlayer: player2,
       team1SecondPlayer: player4,
-      team2FirstPlayer: player1,
+      team2FirstPlayer: player3,
       team2SecondPlayer: player5
     },
     {
-      gameNo: 9,
+      gameNo: 8,
       team1FirstPlayer: player1,
       team1SecondPlayer: player3,
       team2FirstPlayer: player4,
       team2SecondPlayer: player5
     },
     {
+      gameNo: 9,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player4,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player5
+    },
+    {
       gameNo: 10,
-      team1FirstPlayer: player2,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player2,
+      team2FirstPlayer: player3,
+      team2SecondPlayer: player5
+    },
+    {
+      gameNo: 11,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player3,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player4
+    },
+    {
+      gameNo: 12,
+      team1FirstPlayer: player3,
+      team1SecondPlayer: player4,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player5
+    },
+    {
+      gameNo: 13,
+      team1FirstPlayer: player1,
       team1SecondPlayer: player5,
       team2FirstPlayer: player3,
       team2SecondPlayer: player4
+    },
+    {
+      gameNo: 14,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player2,
+      team2FirstPlayer: player4,
+      team2SecondPlayer: player5
+    },
+    {
+      gameNo: 15,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player5,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player3
     }
   ];
 
@@ -317,20 +376,51 @@ function App() {
     return game.gameNo <= 5;
   });
 
-  //State and function to handle switch for second round
-  const [addSecondRound, setAddSecondRound] = useState(false);
-  const handleSecondRoundSwitch = (event) => {
-    setAddSecondRound(event.target.checked);
-  };
+    //Filter schedule for two round tournament
+    const twoRoundFourPlayerSchedule = fourPlayerSchedule.filter((game) => {
+      return game.gameNo <= 6;
+    });
+    const twoRoundFivePlayerSchedule = fivePlayerSchedule.filter((game) => {
+      return game.gameNo <= 10;
+    });
 
-  const actualSchedule =
+  //State and function to handle switch for second round
+  // const [addSecondRound, setAddSecondRound] = useState(false);
+  // const handleSecondRoundSwitch = (event) => {
+  //   setAddSecondRound(event.target.checked);
+  // };
+
+  //State and function to handle button for second & third rounds of games
+  const [addSecondRound, setAddSecondRound] = useState(false);
+  const [addThirdRound, setAddThirdRound] = useState(false);
+
+  const handleMoreGamesButton = () => {
+  addSecondRound ? setAddThirdRound(true): setAddSecondRound(true)};
+
+
+  // const actualSchedule =
+  //   playerCount === 4
+  //     ? addSecondRound
+  //       ? fourPlayerSchedule
+  //       : oneRoundFourPlayerSchedule
+  //     : playerCount === 5
+  //     ? addSecondRound
+  //       ? fivePlayerSchedule
+  //       : oneRoundFivePlayerSchedule
+  //     : sixPlayerSchedule;
+
+      const actualSchedule =
     playerCount === 4
       ? addSecondRound
-        ? fourPlayerSchedule
+        ? (addThirdRound
+          ? fourPlayerSchedule
+          : twoRoundFourPlayerSchedule)
         : oneRoundFourPlayerSchedule
       : playerCount === 5
       ? addSecondRound
-        ? fivePlayerSchedule
+        ? (addThirdRound
+          ? fivePlayerSchedule
+          : twoRoundFivePlayerSchedule)
         : oneRoundFivePlayerSchedule
       : sixPlayerSchedule;
 
@@ -694,6 +784,17 @@ setIsRestarDialogOpen(!isRestartDialogOpen);
 //   section.scrollIntoView({ block: "end" });
 // };
 
+const downloadResults = () => {
+  htmlToImage.toJpeg(document.getElementById('download-results'), { quality: 0.95, backgroundColor: "#FFFFFF" })
+  .then(function (dataUrl) {
+    var link = document.createElement('a');
+    link.download = 'Tournament-results.jpeg';
+    link.href = dataUrl;
+    link.click();
+  });
+
+}
+
   return (
     <Container maxWidth="md">
       <Header />
@@ -786,20 +887,29 @@ setIsRestarDialogOpen(!isRestartDialogOpen);
           {actualSchedule.map(createGame)}
         </Grid>
       )}
-      {playersAreSubmitted && playerCount < 6 && (
+      {playersAreSubmitted && playerCount < 6 && !addThirdRound && (
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} mt={3}>
             <h3>
-              Add second round of games?
-              <Switch
+              Add more games?
+              {/* <Switch
                 checked={addSecondRound}
                 onChange={handleSecondRoundSwitch}
-              />
+              /> */}
+              <IconButton 
+                aria-label="add-games" 
+                size="large"
+                color="primary"
+                onClick={handleMoreGamesButton}
+                >
+                <AddCircleIcon fontSize="inherit" />
+              </IconButton>
             </h3>
           </Grid>
         </Grid>
       )}
       {/* <Footer /> */}
+      <div id="download-results">
       <Grid container>
         <Grid item xs={12}>
           {gameResultsAreSubmitted && (
@@ -813,7 +923,7 @@ setIsRestarDialogOpen(!isRestartDialogOpen);
       <Grid container>
         <Grid item xs={12}>
           {gameResultsAreSubmitted && (
-            <div className="winners-table">
+            <div className="winners-table" >
               <h1 id="winners-table">Winners Table</h1>
               <div className="result top">
                 <Stack
@@ -838,10 +948,19 @@ setIsRestarDialogOpen(!isRestartDialogOpen);
                 </Stack>
               </div>
               {sortedPlayerResults.map(createWinnersTable)}
+              <Button
+                // variant="contained"
+                size="small"
+                onClick={downloadResults}
+                startIcon={<DownloadIcon/>}
+              >
+              Download results
+              </Button>
             </div>
           )}
         </Grid>
       </Grid>
+      </div>
       <Grid container>
         <Grid item xs={12} mb={3}>
           {gameResultsAreSubmitted && <SimpleBottomNavigation 
