@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as htmlToImage from 'html-to-image';
 import { toJpeg } from 'html-to-image';
 import Header from "./Header";
+import Footer from "./Footer";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import GameCard from "./GameCard";
@@ -16,9 +17,12 @@ import RestartDialog from "./RestartDialog";
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
+import Alert from '@mui/material/Alert';
+
 
 function App() {
   const [playerCount, setPlayerCount] = useState("");
+  const [playerAlertOpen, setPlayerAlertOpen] = useState(false);
   const [playersAreSubmitted, setPlayersAreSubmitted] = useState(false);
   const [gameResultsAreSubmitted, setGameResultsAreSubmitted] = useState(false);
   const addNumbers = (a, b) => {
@@ -72,9 +76,12 @@ function App() {
     });
   }
 
-  function handleSubmitPlayers() {
-    setPlayersAreSubmitted(true);
-  }
+  //Check if enough player names are entered
+  const enteredPlayersCount = Object.keys(players).length
+
+  const handleSubmitPlayers = () => 
+  (enteredPlayersCount === playerCount) ?
+  setPlayersAreSubmitted(true) & setPlayerAlertOpen(false): setPlayerAlertOpen(true);
 
   const player1 = players.player1;
   const player2 = players.player2;
@@ -396,18 +403,6 @@ function App() {
 
   const handleMoreGamesButton = () => {
   addSecondRound ? setAddThirdRound(true): setAddSecondRound(true)};
-
-
-  // const actualSchedule =
-  //   playerCount === 4
-  //     ? addSecondRound
-  //       ? fourPlayerSchedule
-  //       : oneRoundFourPlayerSchedule
-  //     : playerCount === 5
-  //     ? addSecondRound
-  //       ? fivePlayerSchedule
-  //       : oneRoundFivePlayerSchedule
-  //     : sixPlayerSchedule;
 
       const actualSchedule =
     playerCount === 4
@@ -844,7 +839,13 @@ const downloadResults = () => {
           {inputsToShow.map(createPlayerInput)}
         </Grid>
       )}
-
+      {playerAlertOpen &&
+      <Alert 
+        severity="warning"
+        onClose={() => {setPlayerAlertOpen(false)}}
+      >Please enter player names!
+      </Alert>
+      }
       {playerCount > 0 && !playersAreSubmitted && (
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -892,10 +893,6 @@ const downloadResults = () => {
           <Grid item xs={12} mt={3}>
             <h3>
               Add more games?
-              {/* <Switch
-                checked={addSecondRound}
-                onChange={handleSecondRoundSwitch}
-              /> */}
               <IconButton 
                 aria-label="add-games" 
                 size="large"
@@ -908,7 +905,6 @@ const downloadResults = () => {
           </Grid>
         </Grid>
       )}
-      {/* <Footer /> */}
       <div id="download-results">
       <Grid container>
         <Grid item xs={12}>
@@ -948,19 +944,28 @@ const downloadResults = () => {
                 </Stack>
               </div>
               {sortedPlayerResults.map(createWinnersTable)}
-              <Button
-                // variant="contained"
-                size="small"
-                onClick={downloadResults}
-                startIcon={<DownloadIcon/>}
-              >
-              Download results
-              </Button>
+              
             </div>
           )}
         </Grid>
       </Grid>
       </div>
+      {gameResultsAreSubmitted &&
+      <Grid container>
+        <Grid item xs={12}>
+          <div className="under-winners-table">
+            <Button
+              size="small"
+              onClick={downloadResults}
+              startIcon={<DownloadIcon/>}
+              >
+              Download results
+            </Button>
+          </div>
+        </Grid>
+      </Grid>
+              }
+      <Footer />  
       <Grid container>
         <Grid item xs={12} mb={3}>
           {gameResultsAreSubmitted && <SimpleBottomNavigation 
@@ -968,10 +973,12 @@ const downloadResults = () => {
            />}
         </Grid>
       </Grid>
+
       {isRestartDialogOpen && 
       <RestartDialog 
         onChange={handleRestartDialog}
       />}
+
     </Container>
   );
 }

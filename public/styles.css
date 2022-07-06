@@ -34,15 +34,15 @@
   }
   
   footer {
-    position: absolute;
-    text-align: center;
-    bottom: 0;
-    width: 100%;
-    height: 2.5rem;
+    /* margin: 0; */
+    /* bottom: 0; */
   }
-  
+
   footer p {
-    color: #ccc;
+    font-family: "Orbitron";
+    text-align: right;
+    font-size: 0.6em;
+    color: #BDC1BF;
   }
   
   h1 {
@@ -117,7 +117,11 @@
   }
   
   .winners-table {
-    margin: 50px auto;
+    margin: 50px auto 5px;
+  }
+
+  .under-winners-table {
+    margin: 0 auto 45px
   }
   
   .positive-points {
