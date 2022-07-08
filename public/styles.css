@@ -32,11 +32,6 @@
     text-align: center;
     color: #fff;
   }
-  
-  footer {
-    /* margin: 0; */
-    /* bottom: 0; */
-  }
 
   footer p {
     font-family: "Orbitron";
@@ -69,7 +64,7 @@
     background: hsl(44, 92%, 52%);
     border-radius: 7px;
     box-shadow: 0 2px 5px #ccc;
-    padding: 10px;
+    padding: 15px 10px 10px;
     width: 100%;
     margin: 16px auto;
     overflow-wrap: break-word;

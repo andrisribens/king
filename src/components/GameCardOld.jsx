@@ -51,48 +51,44 @@ function GameCard(props) {
 
   return (
     <div className={isButtonPressed ? "game isbuttonpressed" : "game"}>
-    <Stack
-      direction="column"
-      spacing={2}
-    >
       <Stack
-        spacing={4}
+        spacing={2}
         direction="row"
-        alignItems="top"
+        alignItems="center"
         justifyContent="space-between"
+        divider={<Divider orientation="vertical" flexItem />}
       >
         <span>
           <h1>{props.gameNo}</h1>
         </span>
-        <Stack
-          direction="column"
-          alignItems="flex-start"
-          justifyContent="space-between"
-          divider={<Divider orientation="horizontal" flexItem />}
-        >
         <span>
           <h4>{props.team1FirstPlayer + " + " + props.team1SecondPlayer}</h4>
         </span>
         <span>
+          <h4>vs</h4>
+        </span>
+        <span>
           <h4>{props.team2FirstPlayer + " + " + props.team2SecondPlayer}</h4>
         </span>
-        </Stack>
-        
-      
+      </Stack>
       <Stack
-        direction="column"
-        spacing={2}
+        marginTop={2}
+        marginBottom={2}
+        alignItems="bottom"
+        justifyContent="space-between"
+        direction="row"
+        spacing={15}
       >
         <TextField
           disabled={isButtonPressed}
-          id="outlined-number"
+          id="filled-number"
           type="number"
           label="Team 1 score"
           autoFocus={props.gameNo === 1}
           InputLabelProps={{
             shrink: true
           }}
-          variant="outlined"
+          variant="filled"
           onChange={handleScoreChange}
           value={inputScore.team1Score}
           name="team1Score"
@@ -102,13 +98,13 @@ function GameCard(props) {
         />
         <TextField
           disabled={isButtonPressed}
-          id="outlined-number"
+          id="filled-number"
           type="number"
           label="Team 2 score"
           InputLabelProps={{
             shrink: true
           }}
-          variant="outlined"
+          variant="filled"
           onChange={handleScoreChangeWithButtonActivation}
           value={inputScore.team2Score}
           name="team2Score"
@@ -116,7 +112,6 @@ function GameCard(props) {
           teamPlayer2={props.team2SecondPlayer}
           gameNo={props.gameNo}
         />
-      </Stack>
       </Stack>
       <Stack>
         <Button
@@ -129,9 +124,8 @@ function GameCard(props) {
           {isButtonPressed ? "Edit Score" : "Submit Score"}
         </Button>
       </Stack>
-      </Stack>
     </div>
   );
 }
 
-export default GameCard;
+export default GameCardOld;

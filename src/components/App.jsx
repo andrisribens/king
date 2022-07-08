@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as htmlToImage from 'html-to-image';
-import { toJpeg } from 'html-to-image';
+// import { toJpeg } from 'html-to-image';
 import Header from "./Header";
 import Footer from "./Footer";
 import Grid from "@mui/material/Grid";
@@ -18,6 +18,7 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import Alert from '@mui/material/Alert';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 
 function App() {
@@ -38,7 +39,9 @@ function App() {
     { id: 3, name: "player3", value: "", label: "Add Player 3" },
     { id: 4, name: "player4", value: "", label: "Add Player 4" },
     { id: 5, name: "player5", value: "", label: "Add Player 5" },
-    { id: 6, name: "player6", value: "", label: "Add Player 6" }
+    { id: 6, name: "player6", value: "", label: "Add Player 6" },
+    { id: 7, name: "player7", value: "", label: "Add Player 7" },
+    { id: 8, name: "player8", value: "", label: "Add Player 8" }
   ];
 
   const inputsToShow = playerInputs.filter(
@@ -47,7 +50,10 @@ function App() {
 
   function handlePlayerCount(event) {
     setPlayerCount(
-      event.target.value === "5" ? 5 : event.target.value === "6" ? 6 : 4
+      event.target.value === "8" ? 8 :
+      event.target.value === "7" ? 7 :
+      event.target.value === "6" ? 6 :
+      event.target.value === "5" ? 5 : 4
     );
     return inputsToShow;
   }
@@ -89,6 +95,9 @@ function App() {
   const player4 = players.player4;
   const player5 = players.player5;
   const player6 = players.player6;
+  const player7 = players.player7;
+  const player8 = players.player8;
+
 
   //Three rounds of four player schedule scheme
   const fourPlayerSchedule = [
@@ -375,6 +384,210 @@ function App() {
     }
   ];
 
+  //One round of seven player schedule scheme
+  const sevenPlayerSchedule = [
+    {
+      gameNo: 1,
+      team1FirstPlayer: player4,
+      team1SecondPlayer: player7,
+      team2FirstPlayer: player5,
+      team2SecondPlayer: player6
+    },
+    {
+      gameNo: 2,
+      team1FirstPlayer: player2,
+      team1SecondPlayer: player3,
+      team2FirstPlayer: player4,
+      team2SecondPlayer: player5
+    },
+    {
+      gameNo: 3,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player5,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player6
+    },
+    {
+      gameNo: 4,
+      team1FirstPlayer: player4,
+      team1SecondPlayer: player6,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player3
+    },
+    {
+      gameNo: 5,
+      team1FirstPlayer: player2,
+      team1SecondPlayer: player5,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player6
+    },
+    {
+      gameNo: 6,
+      team1FirstPlayer: player4,
+      team1SecondPlayer: player7,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player2
+    },
+    {
+      gameNo: 7,
+      team1FirstPlayer: player3,
+      team1SecondPlayer: player6,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player4
+    },
+    {
+      gameNo: 8,
+      team1FirstPlayer: player2,
+      team1SecondPlayer: player3,
+      team2FirstPlayer: player6,
+      team2SecondPlayer: player7
+    },
+    {
+      gameNo: 9,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player5,
+      team2FirstPlayer: player3,
+      team2SecondPlayer: player7
+    },
+    {
+      gameNo: 10,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player7,
+      team2FirstPlayer: player3,
+      team2SecondPlayer: player5
+    },
+    {
+      gameNo: 11,
+      team1FirstPlayer: player4,
+      team1SecondPlayer: player6,
+      team2FirstPlayer: player5,
+      team2SecondPlayer: player7
+    },
+    {
+      gameNo: 12,
+      team1FirstPlayer: player2,
+      team1SecondPlayer: player5,
+      team2FirstPlayer: player3,
+      team2SecondPlayer: player4
+    },
+    {
+      gameNo: 13,
+      team1FirstPlayer: player3,
+      team1SecondPlayer: player6,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player7
+    },
+    {
+      gameNo: 14,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player7,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player4
+    }
+  ];
+
+    //One round of eight player schedule scheme
+    const eightPlayerSchedule = [
+      {
+        gameNo: 1,
+        team1FirstPlayer: player1,
+        team1SecondPlayer: player2,
+        team2FirstPlayer: player3,
+        team2SecondPlayer: player4
+      },
+      {
+        gameNo: 2,
+        team1FirstPlayer: player5,
+        team1SecondPlayer: player6,
+        team2FirstPlayer: player7,
+        team2SecondPlayer: player8
+      },
+      {
+        gameNo: 3,
+        team1FirstPlayer: player1,
+        team1SecondPlayer: player5,
+        team2FirstPlayer: player2,
+        team2SecondPlayer: player6
+      },
+      {
+        gameNo: 4,
+        team1FirstPlayer: player3,
+        team1SecondPlayer: player7,
+        team2FirstPlayer: player4,
+        team2SecondPlayer: player8
+      },
+      {
+        gameNo: 5,
+        team1FirstPlayer: player1,
+        team1SecondPlayer: player7,
+        team2FirstPlayer: player2,
+        team2SecondPlayer: player8
+      },
+      {
+        gameNo: 6,
+        team1FirstPlayer: player3,
+        team1SecondPlayer: player5,
+        team2FirstPlayer: player4,
+        team2SecondPlayer: player6
+      },
+      {
+        gameNo: 7,
+        team1FirstPlayer: player1,
+        team1SecondPlayer: player3,
+        team2FirstPlayer: player5,
+        team2SecondPlayer: player7
+      },
+      {
+        gameNo: 8,
+        team1FirstPlayer: player2,
+        team1SecondPlayer: player4,
+        team2FirstPlayer: player6,
+        team2SecondPlayer: player8
+      },
+      {
+        gameNo: 9,
+        team1FirstPlayer: player1,
+        team1SecondPlayer: player8,
+        team2FirstPlayer: player3,
+        team2SecondPlayer: player6
+      },
+      {
+        gameNo: 10,
+        team1FirstPlayer: player2,
+        team1SecondPlayer: player7,
+        team2FirstPlayer: player4,
+        team2SecondPlayer: player5
+      },
+      {
+        gameNo: 11,
+        team1FirstPlayer: player1,
+        team1SecondPlayer: player4,
+        team2FirstPlayer: player5,
+        team2SecondPlayer: player8
+      },
+      {
+        gameNo: 12,
+        team1FirstPlayer: player2,
+        team1SecondPlayer: player3,
+        team2FirstPlayer: player6,
+        team2SecondPlayer: player7
+      },
+      {
+        gameNo: 13,
+        team1FirstPlayer: player1,
+        team1SecondPlayer: player6,
+        team2FirstPlayer: player4,
+        team2SecondPlayer: player7
+      },
+      {
+        gameNo: 14,
+        team1FirstPlayer: player2,
+        team1SecondPlayer: player5,
+        team2FirstPlayer: player3,
+        team2SecondPlayer: player8
+      }
+    ];
+
   //Filter schedule for one round tournament
   const oneRoundFourPlayerSchedule = fourPlayerSchedule.filter((game) => {
     return game.gameNo <= 3;
@@ -417,7 +630,11 @@ function App() {
           ? fivePlayerSchedule
           : twoRoundFivePlayerSchedule)
         : oneRoundFivePlayerSchedule
-      : sixPlayerSchedule;
+      : playerCount === 6
+      ? sixPlayerSchedule
+      : playerCount === 7
+      ? sevenPlayerSchedule
+      : eightPlayerSchedule;
 
   function createSchedule() {
     handleSubmitPlayers();
@@ -426,7 +643,7 @@ function App() {
 
   function createGame(gameInfo, index) {
     return (
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} sm={6} lg={4}>
         <GameCard
           key={index}
           id={gameInfo.gameNo}
@@ -448,6 +665,9 @@ function App() {
   const [player4TotalPoints, setPlayer4TotalPoints] = useState(0);
   const [player5TotalPoints, setPlayer5TotalPoints] = useState(0);
   const [player6TotalPoints, setPlayer6TotalPoints] = useState(0);
+  const [player7TotalPoints, setPlayer7TotalPoints] = useState(0);
+  const [player8TotalPoints, setPlayer8TotalPoints] = useState(0);
+
 
   const [player1TotalWins, setPlayer1TotalWins] = useState(0);
   const [player2TotalWins, setPlayer2TotalWins] = useState(0);
@@ -455,6 +675,8 @@ function App() {
   const [player4TotalWins, setPlayer4TotalWins] = useState(0);
   const [player5TotalWins, setPlayer5TotalWins] = useState(0);
   const [player6TotalWins, setPlayer6TotalWins] = useState(0);
+  const [player7TotalWins, setPlayer7TotalWins] = useState(0);
+  const [player8TotalWins, setPlayer8TotalWins] = useState(0);
 
   const playerResults = [
     {
@@ -492,6 +714,18 @@ function App() {
       player: player6,
       playerTotalPoints: player6TotalPoints,
       playerTotalWins: player6TotalWins
+    },
+    {
+      playerNo: 7,
+      player: player7,
+      playerTotalPoints: player7TotalPoints,
+      playerTotalWins: player7TotalWins
+    },
+    {
+      playerNo: 8,
+      player: player8,
+      playerTotalPoints: player8TotalPoints,
+      playerTotalWins: player8TotalWins
     }
   ];
 
@@ -676,6 +910,50 @@ function App() {
         : 0;
     }
     handlePlayer6NewScore();
+
+    function handlePlayer7NewScore() {
+      return newScore.team1FirstPlayer === player7
+        ? setPlayer7TotalPoints(
+            addNumbers(player7TotalPoints, team1NetPoints)
+          ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team1Win))
+        : newScore.team1SecondPlayer === player7
+        ? setPlayer7TotalPoints(
+            addNumbers(player7TotalPoints, team1NetPoints)
+          ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team1Win))
+        : newScore.team2FirstPlayer === player7
+        ? setPlayer7TotalPoints(
+            addNumbers(player7TotalPoints, team2NetPoints)
+          ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team2Win))
+        : newScore.team2SecondPlayer === player7
+        ? setPlayer7TotalPoints(
+            addNumbers(player7TotalPoints, team2NetPoints)
+          ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team2Win))
+        : 0;
+    }
+    handlePlayer7NewScore();
+
+
+    function handlePlayer8NewScore() {
+      return newScore.team1FirstPlayer === player8
+        ? setPlayer8TotalPoints(
+            addNumbers(player8TotalPoints, team1NetPoints)
+          ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team1Win))
+        : newScore.team1SecondPlayer === player8
+        ? setPlayer8TotalPoints(
+            addNumbers(player8TotalPoints, team1NetPoints)
+          ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team1Win))
+        : newScore.team2FirstPlayer === player8
+        ? setPlayer8TotalPoints(
+            addNumbers(player8TotalPoints, team2NetPoints)
+          ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team2Win))
+        : newScore.team2SecondPlayer === player8
+        ? setPlayer8TotalPoints(
+            addNumbers(player8TotalPoints, team2NetPoints)
+          ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team2Win))
+        : 0;
+    }
+    handlePlayer8NewScore();
+
   }
 
   const [gameScores, setGameScores] = useState([]);
@@ -758,7 +1036,6 @@ function App() {
   function createWinnersTable(winnerItem, index, newScore) {
     return (
       <WinnersTableRow
-        // key={scoreInfo.id}
         rowNo={index + 1}
         playerNo={winnerItem.playerNo}
         player={winnerItem.player}
@@ -773,11 +1050,6 @@ const [isRestartDialogOpen, setIsRestarDialogOpen] = useState(false);
 function handleRestartDialog() {
 setIsRestarDialogOpen(!isRestartDialogOpen);
 }
-
-// const scrollToSchedule = () => {
-//   const section = document.querySelector("#schedule");
-//   section.scrollIntoView({ block: "end" });
-// };
 
 const downloadResults = () => {
   htmlToImage.toJpeg(document.getElementById('download-results'), { quality: 0.95, backgroundColor: "#FFFFFF" })
@@ -799,36 +1071,47 @@ const downloadResults = () => {
             <h1>How many players today? </h1>
             <Stack
               justifyContent="center"
-              spacing={6}
               direction="row"
               mt={3}
               mb={2}
-              alignItems="center"
+            >
+            <ButtonGroup
+            fullwidth
+            size="large"
+            variant="contained"
             >
               <Button
-                variant="contained"
-                size="large"
                 onClick={handlePlayerCount}
                 value="4"
+                size="large"
               >
                 4
               </Button>
               <Button
-                variant="contained"
-                size="large"
                 onClick={handlePlayerCount}
                 value="5"
               >
                 5
               </Button>
               <Button
-                variant="contained"
-                size="large"
                 onClick={handlePlayerCount}
                 value="6"
               >
                 6
               </Button>
+              <Button
+                onClick={handlePlayerCount}
+                value="7"
+              >
+                7
+              </Button>
+              <Button
+                onClick={handlePlayerCount}
+                value="8"
+              >
+                8
+              </Button>
+              </ButtonGroup>
             </Stack>
           </Grid>
         )}
@@ -872,7 +1155,7 @@ const downloadResults = () => {
           <p>
             Add a competitive edge to your game and play "King of The Beach" style
             tournament where everyone has to compete against everyone. This website
-            helps to create tournament schedule for 4 to 6 players, register
+            helps to create tournament schedule for 4 to 8 players, register
             game results and calculate the winner.
           </p>
           <br></br>

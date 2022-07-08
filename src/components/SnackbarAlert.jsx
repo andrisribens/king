@@ -13,7 +13,7 @@ return (
         variant="filled"
         severity="warning"
         onClose={() => {setPlayerAlertOpen(false)}}
-      >Please enter the names of players!
+      >Please enter the names of all players!
       </Alert>
       </Snackbar>
 )}

@@ -1,7 +1,6 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
-// import MilitaryTechOutlinedIcon from "@mui/icons-material/MilitaryTechOutlined";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 
 function WinnersTableRow(props) {
@@ -42,7 +41,7 @@ function WinnersTableRow(props) {
         </span>
         <span>
           {props.playerTotalPoints > 0 ? (
-            <p className="positive-points">+ {props.playerTotalPoints}</p>
+            <p className="positive-points">+{props.playerTotalPoints}</p>
           ) : props.playerTotalPoints < 0 ? (
             <p className="negative-points">{props.playerTotalPoints}</p>
           ) : (
