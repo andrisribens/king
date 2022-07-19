@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import * as htmlToImage from 'html-to-image';
-// import { toJpeg } from 'html-to-image';
 import Header from "./Header";
 import Footer from "./Footer";
 import Grid from "@mui/material/Grid";
@@ -98,8 +97,13 @@ function App() {
   const player7 = players.player7;
   const player8 = players.player8;
 
+//Schedule formula gives: 
+//4 rounds for 4 players,
+//3 rounds for 5 players,
+//1 round for 6-8 players
 
-  //Three rounds of four player schedule scheme
+
+  //Four rounds of four player schedule scheme
   const fourPlayerSchedule = [
     {
       gameNo: 1,
@@ -124,24 +128,24 @@ function App() {
     },
     {
       gameNo: 4,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player3
+      team1FirstPlayer: player2,
+      team1SecondPlayer: player3,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player4
     },
     {
       gameNo: 5,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player4
+      team1FirstPlayer: player2,
+      team1SecondPlayer: player4,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player3
     },
     {
       gameNo: 6,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player4
+      team1FirstPlayer: player3,
+      team1SecondPlayer: player4,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player2
     },
     {
       gameNo: 7,
@@ -163,6 +167,27 @@ function App() {
       team1SecondPlayer: player2,
       team2FirstPlayer: player3,
       team2SecondPlayer: player4
+    },
+    {
+      gameNo: 10,
+      team1FirstPlayer: player2,
+      team1SecondPlayer: player3,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player4
+    },
+    {
+      gameNo: 11,
+      team1FirstPlayer: player2,
+      team1SecondPlayer: player4,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player3
+    },
+    {
+      gameNo: 12,
+      team1FirstPlayer: player3,
+      team1SecondPlayer: player4,
+      team2FirstPlayer: player1,
+      team2SecondPlayer: player2
     }
   ];
 
@@ -604,6 +629,11 @@ function App() {
       return game.gameNo <= 10;
     });
 
+    //Filter schedule for three round tournament (applies only for 4 players)
+    const threeRoundFourPlayerSchedule = fourPlayerSchedule.filter((game) => {
+      return game.gameNo <= 9;
+    });
+
   //State and function to handle switch for second round
   // const [addSecondRound, setAddSecondRound] = useState(false);
   // const handleSecondRoundSwitch = (event) => {
@@ -613,17 +643,25 @@ function App() {
   //State and function to handle button for second & third rounds of games
   const [addSecondRound, setAddSecondRound] = useState(false);
   const [addThirdRound, setAddThirdRound] = useState(false);
+  const [addFourthRound, setAddFourthRound] = useState(false);
+
+  // const handleMoreGamesButton = () => {
+  // addSecondRound ? setAddThirdRound(true): setAddSecondRound(true)};
 
   const handleMoreGamesButton = () => {
-  addSecondRound ? setAddThirdRound(true): setAddSecondRound(true)};
+    addThirdRound ? setAddFourthRound(true):
+    addSecondRound ? setAddThirdRound(true): setAddSecondRound(true)};
+  
 
-      const actualSchedule =
+    const actualSchedule =
     playerCount === 4
-      ? addSecondRound
-        ? (addThirdRound
-          ? fourPlayerSchedule
-          : twoRoundFourPlayerSchedule)
-        : oneRoundFourPlayerSchedule
+      ? addFourthRound
+        ? fourPlayerSchedule
+        : addThirdRound
+          ? threeRoundFourPlayerSchedule
+          : addSecondRound
+            ? twoRoundFourPlayerSchedule
+            : oneRoundFourPlayerSchedule
       : playerCount === 5
       ? addSecondRound
         ? (addThirdRound
@@ -1171,7 +1209,9 @@ const downloadResults = () => {
           {actualSchedule.map(createGame)}
         </Grid>
       )}
-      {playersAreSubmitted && playerCount < 6 && !addThirdRound && (
+      {playersAreSubmitted && 
+      (playerCount < 6 && (playerCount < 5 ? !addFourthRound : !addThirdRound)) && 
+      (
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} mt={3}>
             <h3>
