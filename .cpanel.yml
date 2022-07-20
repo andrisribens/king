@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/kingdjmt/public_html/
+    - export DEPLOYPATH=/home/kingdjmt/repositories/king/public_html/
     - /bin/cp -R build $DEPLOYPATH
