@@ -27,7 +27,7 @@ function WinnersTableRow(props) {
           {props.rowNo === 1 ? (
             <h3>
               {props.rowNo}
-              <EmojiEventsOutlinedIcon ml={5} fontSize="small" color="action" />
+              <EmojiEventsOutlinedIcon fontSize="small" color="action" />
             </h3>
           ) : (
             <h3>{props.rowNo}</h3>

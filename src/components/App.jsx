@@ -19,7 +19,6 @@ import DownloadIcon from '@mui/icons-material/Download';
 import Alert from '@mui/material/Alert';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-
 function App() {
   const [playerCount, setPlayerCount] = useState("");
   const [playerAlertOpen, setPlayerAlertOpen] = useState(false);
@@ -1024,7 +1023,7 @@ function App() {
   }
 
   // When editing the game score the specific game gets deleted from gameScores array
-  const [deletedGameScore, setDeletedGameScore] = useState({});
+  // const [deletedGameScore, setDeletedGameScore] = useState({});
 
   function deleteGameScore(id) {
     const newDeletedGameScore = gameScores.find((gameScoreItem) => {
@@ -1038,7 +1037,7 @@ function App() {
       deleteAction
     );
 
-    setDeletedGameScore(updatedDeletedScore);
+    // setDeletedGameScore(updatedDeletedScore);
 
     //Define variable newScore from wich wins and net points for all players are calculated
     //when adding or editing (deleting) game score
@@ -1089,11 +1088,17 @@ function handleRestartDialog() {
 setIsRestarDialogOpen(!isRestartDialogOpen);
 }
 
+//Get current time to generate unique results file name
+const time = new Date();
+const dateAndTime = time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate() + "/" + time.getHours() + "-" + time.getMinutes();
+const resultsFileName = (dateAndTime + "/KOB-tournament-results.jpg").toString();
+
+//Transform html to jpg and download. This is for results table.
 const downloadResults = () => {
   htmlToImage.toJpeg(document.getElementById('download-results'), { quality: 0.95, backgroundColor: "#FFFFFF" })
   .then(function (dataUrl) {
     var link = document.createElement('a');
-    link.download = 'Tournament-results.jpeg';
+    link.download = resultsFileName;
     link.href = dataUrl;
     link.click();
   });
