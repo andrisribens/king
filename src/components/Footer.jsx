@@ -4,7 +4,7 @@ function Footer() {
   return (
     <footer>
     <div>
-        <p>Created by Andris</p>
+        <p>Created by Andris Rībens</p>
     </div>  
     </footer>
   );

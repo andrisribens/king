@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-// import { Routes, Route, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";

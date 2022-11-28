@@ -1,14 +1,36 @@
-import React, { useState } from "react";
+import React, {useState, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 function GameCard(props) {
-  const [isButtonPressed, setIsButtonPressed] = useState(false);
-  const [isScoreInputDone, setIsScoreInputDone] = useState(false);
 
-  const [inputScore, setInputScore] = useState({
+  function useStickyState(defaultValue, key) {
+
+    const [value, setValue] = useState(() => {
+      const stickyValue = window.localStorage.getItem(key);
+      return stickyValue !== null
+      ? JSON.parse(stickyValue)
+      : defaultValue;
+    });
+    
+    useEffect(() => {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    }, [key, value] );
+    
+    return [value, setValue]; 
+    }
+
+  const inputScoreStickyKey = "inputScore" + props.gameNo;
+  const isButtonPressedStickyKey = "isButtonPressed" + props.gameNo;
+  const isScoreInputDoneStickyKey = "isScoreInputDone" + props.gameNo;
+
+  const [isButtonPressed, setIsButtonPressed] = useStickyState(false, isButtonPressedStickyKey);
+  const [isScoreInputDone, setIsScoreInputDone] = useStickyState(false, isScoreInputDoneStickyKey);
+  
+
+  const [inputScore, setInputScore] = useStickyState({
     gameNo: props.gameNo,
     id: props.id,
     team1FirstPlayer: props.team1FirstPlayer,
@@ -18,7 +40,8 @@ function GameCard(props) {
     team2SecondPlayer: props.team2SecondPlayer,
     team2Score: "",
     action: "add"
-  });
+  }, inputScoreStickyKey);
+
 
   function handleScoreChange(event) {
     const { name, value } = event.target;
@@ -42,6 +65,7 @@ function GameCard(props) {
   function submitScore() {
     props.onAdd(inputScore);
     handleIsButtonPressed();
+    // setInputScorePassive(true);
   }
 
   function editScore() {

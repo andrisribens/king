@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as htmlToImage from 'html-to-image';
 import Header from "./Header";
 import Footer from "./Footer";
@@ -20,10 +20,28 @@ import Alert from '@mui/material/Alert';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 function App() {
-  const [playerCount, setPlayerCount] = useState("");
+
+
+function useStickyState(defaultValue, key) {
+
+const [value, setValue] = useState(() => {
+  const stickyValue = window.localStorage.getItem(key);
+  return stickyValue !== null
+  ? JSON.parse(stickyValue)
+  : defaultValue;
+});
+
+useEffect(() => {
+  window.localStorage.setItem(key, JSON.stringify(value));
+}, [key, value] );
+
+return [value, setValue]; 
+}
+
+  const [playerCount, setPlayerCount] = useStickyState("", "playercount");
   const [playerAlertOpen, setPlayerAlertOpen] = useState(false);
-  const [playersAreSubmitted, setPlayersAreSubmitted] = useState(false);
-  const [gameResultsAreSubmitted, setGameResultsAreSubmitted] = useState(false);
+  const [playersAreSubmitted, setPlayersAreSubmitted] = useStickyState(false, "playersAreSubmitted");
+  const [gameResultsAreSubmitted, setGameResultsAreSubmitted] = useStickyState(false, "gameResultsAreSubmitted");
   const addNumbers = (a, b) => {
     return Number(a) + Number(b);
   };
@@ -67,7 +85,7 @@ function App() {
     );
   }
 
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useStickyState([], "players");
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -633,19 +651,12 @@ function App() {
       return game.gameNo <= 9;
     });
 
-  //State and function to handle switch for second round
-  // const [addSecondRound, setAddSecondRound] = useState(false);
-  // const handleSecondRoundSwitch = (event) => {
-  //   setAddSecondRound(event.target.checked);
-  // };
 
   //State and function to handle button for second & third rounds of games
-  const [addSecondRound, setAddSecondRound] = useState(false);
-  const [addThirdRound, setAddThirdRound] = useState(false);
-  const [addFourthRound, setAddFourthRound] = useState(false);
+  const [addSecondRound, setAddSecondRound] = useStickyState(false, "addSecondRound");
+  const [addThirdRound, setAddThirdRound] = useStickyState(false, "addThirdRound");
+  const [addFourthRound, setAddFourthRound] = useStickyState(false, "addFourthRound");
 
-  // const handleMoreGamesButton = () => {
-  // addSecondRound ? setAddThirdRound(true): setAddSecondRound(true)};
 
   const handleMoreGamesButton = () => {
     addThirdRound ? setAddFourthRound(true):
@@ -678,11 +689,13 @@ function App() {
     return actualSchedule;
   }
 
-  function createGame(gameInfo, index) {
+
+  function createGame(gameInfo) {    
+    
     return (
       <Grid item xs={12} sm={6} lg={4}>
         <GameCard
-          key={index}
+          key={gameInfo.gameNo}
           id={gameInfo.gameNo}
           gameNo={gameInfo.gameNo}
           team1FirstPlayer={gameInfo.team1FirstPlayer}
@@ -696,24 +709,24 @@ function App() {
     );
   }
 
-  const [player1TotalPoints, setPlayer1TotalPoints] = useState(0);
-  const [player2TotalPoints, setPlayer2TotalPoints] = useState(0);
-  const [player3TotalPoints, setPlayer3TotalPoints] = useState(0);
-  const [player4TotalPoints, setPlayer4TotalPoints] = useState(0);
-  const [player5TotalPoints, setPlayer5TotalPoints] = useState(0);
-  const [player6TotalPoints, setPlayer6TotalPoints] = useState(0);
-  const [player7TotalPoints, setPlayer7TotalPoints] = useState(0);
-  const [player8TotalPoints, setPlayer8TotalPoints] = useState(0);
+  const [player1TotalPoints, setPlayer1TotalPoints] = useStickyState(0, "player1TotalPoints");
+  const [player2TotalPoints, setPlayer2TotalPoints] = useStickyState(0, "player2TotalPoints");
+  const [player3TotalPoints, setPlayer3TotalPoints] = useStickyState(0, "player3TotalPoints");
+  const [player4TotalPoints, setPlayer4TotalPoints] = useStickyState(0, "player4TotalPoints");
+  const [player5TotalPoints, setPlayer5TotalPoints] = useStickyState(0, "player5TotalPoints");
+  const [player6TotalPoints, setPlayer6TotalPoints] = useStickyState(0, "player6TotalPoints");
+  const [player7TotalPoints, setPlayer7TotalPoints] = useStickyState(0, "player7TotalPoints");
+  const [player8TotalPoints, setPlayer8TotalPoints] = useStickyState(0, "player8TotalPoints");
 
 
-  const [player1TotalWins, setPlayer1TotalWins] = useState(0);
-  const [player2TotalWins, setPlayer2TotalWins] = useState(0);
-  const [player3TotalWins, setPlayer3TotalWins] = useState(0);
-  const [player4TotalWins, setPlayer4TotalWins] = useState(0);
-  const [player5TotalWins, setPlayer5TotalWins] = useState(0);
-  const [player6TotalWins, setPlayer6TotalWins] = useState(0);
-  const [player7TotalWins, setPlayer7TotalWins] = useState(0);
-  const [player8TotalWins, setPlayer8TotalWins] = useState(0);
+  const [player1TotalWins, setPlayer1TotalWins] = useStickyState(0, "player1TotalWins");
+  const [player2TotalWins, setPlayer2TotalWins] = useStickyState(0, "player2TotalWins");
+  const [player3TotalWins, setPlayer3TotalWins] = useStickyState(0, "player3TotalWins");
+  const [player4TotalWins, setPlayer4TotalWins] = useStickyState(0, "player4TotalWins");
+  const [player5TotalWins, setPlayer5TotalWins] = useStickyState(0, "player5TotalWins");
+  const [player6TotalWins, setPlayer6TotalWins] = useStickyState(0, "player6TotalWins");
+  const [player7TotalWins, setPlayer7TotalWins] = useStickyState(0, "player7TotalWins");
+  const [player8TotalWins, setPlayer8TotalWins] = useStickyState(0, "player8TotalWins");
 
   const playerResults = [
     {
@@ -993,7 +1006,7 @@ function App() {
 
   }
 
-  const [gameScores, setGameScores] = useState([]);
+  const [gameScores, setGameScores] = useStickyState([], "gameScores");
 
   function addGameScore(addedScore) {
     const addAction = { action: "add" };
@@ -1053,10 +1066,10 @@ function App() {
   }
 
   // Create Results Table for every game with submitted score
-  function createResultsTable(gameScoreItem, index) {
+  function createResultsTable(gameScoreItem) {
     return (
       <ResultCard
-        key={index}
+        key={gameScoreItem.gameNo}
         id={gameScoreItem.gameNo}
         gameNo={gameScoreItem.gameNo}
         team1Score={gameScoreItem.team1Score}
@@ -1088,22 +1101,35 @@ function handleRestartDialog() {
 setIsRestarDialogOpen(!isRestartDialogOpen);
 }
 
+
 //Get current time to generate unique results file name
 const time = new Date();
 const dateAndTime = time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate() + "/" + time.getHours() + "-" + time.getMinutes();
 const resultsFileName = (dateAndTime + "/KOB-tournament-results.jpg").toString();
 
+
 //Transform html to jpg and download. This is for results table.
 const downloadResults = () => {
-  htmlToImage.toJpeg(document.getElementById('download-results'), { quality: 0.95, backgroundColor: "#FFFFFF" })
+  var node = document.getElementById("download-results");
+
+  // function filter(node) {
+  //   return (node.className !== "dont-download");
+  // }
+
+  htmlToImage.toJpeg(node, 
+    { 
+      // filter: filter, 
+      quality: 0.95, 
+      backgroundColor: "#FFFFFF"
+    })
   .then(function (dataUrl) {
     var link = document.createElement('a');
     link.download = resultsFileName;
     link.href = dataUrl;
     link.click();
   });
-
 }
+
 
   return (
     <Container maxWidth="md">
@@ -1217,7 +1243,7 @@ const downloadResults = () => {
       {playersAreSubmitted && 
       (playerCount < 6 && (playerCount < 5 ? !addFourthRound : !addThirdRound)) && 
       (
-        <Grid container spacing={2} justifyContent="center">
+        <Grid container spacing={2} justifyContent="center" >
           <Grid item xs={12} mt={3}>
             <h3>
               Add more games?
@@ -1233,6 +1259,7 @@ const downloadResults = () => {
           </Grid>
         </Grid>
       )}
+      
       <div id="download-results">
       <Grid container>
         <Grid item xs={12}>
@@ -1278,6 +1305,7 @@ const downloadResults = () => {
         </Grid>
       </Grid>
       </div>
+
       {gameResultsAreSubmitted &&
       <Grid container>
         <Grid item xs={12}>
@@ -1292,11 +1320,13 @@ const downloadResults = () => {
           </div>
         </Grid>
       </Grid>
-              }
+      }
+
       <Footer />  
       <Grid container>
         <Grid item xs={12} mb={3}>
-          {gameResultsAreSubmitted && <SimpleBottomNavigation 
+          {gameResultsAreSubmitted && 
+          <SimpleBottomNavigation 
           onRestart={handleRestartDialog}
            />}
         </Grid>

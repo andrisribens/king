@@ -13,6 +13,7 @@ function RestartDialog(props) {
   };
 
   const handleRestart = () => {
+    window.localStorage.clear();
     window.location.reload(false);
   }
 
