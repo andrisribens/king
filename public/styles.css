@@ -107,6 +107,11 @@ h2 {
   font-weight: bold;
 }
 
+@media only screen and (max-width: 500px) {
+  .top.result p {
+    font-size: 0.8em;
+  }
+}
 .game-scores {
   margin: 50px auto;
 }

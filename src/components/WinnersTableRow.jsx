@@ -47,6 +47,8 @@ function WinnersTableRow(props) {
             justifyContent: 'center',
             borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
           }}
+          pl={1}
+          pr={1}
         >
           <span>
             <p>{props.playerTotalWins}</p>
@@ -60,6 +62,7 @@ function WinnersTableRow(props) {
             justifyContent: 'center',
             borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
           }}
+          pl={1}
         >
           <span>
             {props.playerTotalPoints > 0 ? (

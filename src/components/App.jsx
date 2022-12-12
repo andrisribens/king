@@ -1357,6 +1357,8 @@ function App() {
                         alignItems: 'center',
                         borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
                       }}
+                      pl={1}
+                      pr={1}
                     >
                       <p>Wins</p>
                     </Grid>
@@ -1369,6 +1371,7 @@ function App() {
                         alignItems: 'center',
                         borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
                       }}
+                      pl={1}
                     >
                       <p>Net points</p>
                     </Grid>
