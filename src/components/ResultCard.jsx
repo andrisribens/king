@@ -7,7 +7,7 @@ function ResultCard(props) {
       <Grid container>
         <Grid
           item
-          xs={2}
+          xs={1}
           sx={{
             display: 'flex',
             justifyContent: 'center',
@@ -36,7 +36,7 @@ function ResultCard(props) {
         </Grid>
         <Grid
           item
-          xs={1}
+          xs={2}
           sx={{
             display: 'flex',
             justifyContent: 'center',

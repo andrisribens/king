@@ -1,12 +1,13 @@
-import React from "react";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
+import React from 'react';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 
 function PlayerInputField(props) {
   return (
     <Grid item xs={12} md={6}>
       <TextField
         id="outlined-helperText"
+        className="player-input-field"
         margin="normal"
         fullWidth
         name={props.name}

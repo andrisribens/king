@@ -60,6 +60,16 @@ h2 {
   width: 100%;
 }
 
+/* Player input */
+.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused {
+  background-color: #efefef;
+}
+
+/* Result input in gamecard */
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused {
+  background-color: #f9d571;
+}
+
 .game {
   background: hsl(44, 92%, 52%);
   border-radius: 7px;

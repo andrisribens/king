@@ -706,7 +706,7 @@ function App() {
 
   function createGame(gameInfo) {
     return (
-      <Grid item xs={12} sm={6} lg={4}>
+      <Grid item xs={12} sm={6} lg={6}>
         <GameCard
           key={gameInfo.gameNo}
           id={gameInfo.gameNo}
