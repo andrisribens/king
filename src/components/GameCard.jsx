@@ -123,6 +123,11 @@ function GameCard(props) {
               teamPlayer1={props.team1FirstPlayer}
               teamPlayer2={props.team1SecondPlayer}
               gameNo={props.gameNo}
+              sx={{
+                '.MuiOutlinedInput-root.Mui-focused': {
+                  backgroundColor: '#f9d571',
+                },
+              }}
             />
             <TextField
               disabled={isButtonPressed}
@@ -139,6 +144,11 @@ function GameCard(props) {
               teamPlayer1={props.team2FirstPlayer}
               teamPlayer2={props.team2SecondPlayer}
               gameNo={props.gameNo}
+              sx={{
+                '.MuiOutlinedInput-root.Mui-focused': {
+                  backgroundColor: '#f9d571',
+                },
+              }}
             />
           </Stack>
         </Stack>
