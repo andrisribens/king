@@ -7,7 +7,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 function RestartDialog(props) {
-
   const handleCancel = () => {
     props.onChange();
   };
@@ -15,7 +14,7 @@ function RestartDialog(props) {
   const handleRestart = () => {
     window.localStorage.clear();
     window.location.reload(false);
-  }
+  };
 
   return (
     <div>
@@ -26,11 +25,11 @@ function RestartDialog(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Sure about restarting the Tournament?"}
+          {'Sure about restarting the Tournament?'}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            By clicking "Restart" all data will be erased.
+            By clicking "Restart" all data will be removed.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
