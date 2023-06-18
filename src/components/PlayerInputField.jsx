@@ -7,7 +7,6 @@ function PlayerInputField(props) {
     <Grid item xs={12} md={6}>
       <TextField
         id="outlined-helperText"
-        // className="player-input-field MuiOutlinedInput-root"
         margin="normal"
         fullWidth
         name={props.name}
