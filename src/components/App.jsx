@@ -1268,8 +1268,28 @@ function App() {
           <p>
             Add a competitive edge to your game and play "King of The Beach"
             style tournament where everyone has to compete against everyone.
-            This website helps to create tournament schedule for 4 to 8 players,
-            register game results and calculate the winner.
+            This website helps to create tournament schedule for 4 to 8 players
+            (it's hard to get more friends together :) ).
+          </p>
+          <br></br>
+          <p>
+            "King of the Beach" tournament formula allows you to play equal
+            number of games against every opponent. You can choose number of
+            points necessary to win the match - 21 (standard) or 15 or even 11
+            for more dynamic speed of tournament. To change partners faster we
+            play only one set to win the match.
+          </p>
+          <br></br>
+          <p>
+            Depending on available time and how many players you have you can
+            add additional rounds.
+          </p>
+          <br></br>
+          <p>
+            After every game you submit the score and Kingofthebeach.me will
+            calculate the winners table. When the tournament is finished,
+            download the results to share them with friends via Whatsapp or
+            Messenger.
           </p>
           <br></br>
           <p>Let's play!</p>
