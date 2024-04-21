@@ -17,6 +17,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import Alert from '@mui/material/Alert';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { Analytics } from '@vercel/analytics/react';
+
 
 function App() {
   function useStickyState(defaultValue, key) {
@@ -69,12 +71,12 @@ function App() {
       event.target.value === '8'
         ? 8
         : event.target.value === '7'
-        ? 7
-        : event.target.value === '6'
-        ? 6
-        : event.target.value === '5'
-        ? 5
-        : 4
+          ? 7
+          : event.target.value === '6'
+            ? 6
+            : event.target.value === '5'
+              ? 5
+              : 4
     );
     return inputsToShow;
   }
@@ -674,8 +676,8 @@ function App() {
     addThirdRound
       ? setAddFourthRound(true)
       : addSecondRound
-      ? setAddThirdRound(true)
-      : setAddSecondRound(true);
+        ? setAddThirdRound(true)
+        : setAddSecondRound(true);
   };
 
   const actualSchedule =
@@ -683,21 +685,21 @@ function App() {
       ? addFourthRound
         ? fourPlayerSchedule
         : addThirdRound
-        ? threeRoundFourPlayerSchedule
-        : addSecondRound
-        ? twoRoundFourPlayerSchedule
-        : oneRoundFourPlayerSchedule
+          ? threeRoundFourPlayerSchedule
+          : addSecondRound
+            ? twoRoundFourPlayerSchedule
+            : oneRoundFourPlayerSchedule
       : playerCount === 5
-      ? addSecondRound
-        ? addThirdRound
-          ? fivePlayerSchedule
-          : twoRoundFivePlayerSchedule
-        : oneRoundFivePlayerSchedule
-      : playerCount === 6
-      ? sixPlayerSchedule
-      : playerCount === 7
-      ? sevenPlayerSchedule
-      : eightPlayerSchedule;
+        ? addSecondRound
+          ? addThirdRound
+            ? fivePlayerSchedule
+            : twoRoundFivePlayerSchedule
+          : oneRoundFivePlayerSchedule
+        : playerCount === 6
+          ? sixPlayerSchedule
+          : playerCount === 7
+            ? sevenPlayerSchedule
+            : eightPlayerSchedule;
 
   function createSchedule() {
     handleSubmitPlayers();
@@ -851,12 +853,12 @@ function App() {
     a.playerTotalWins > b.playerTotalWins
       ? -1
       : a.playerTotalWins < b.playerTotalWins
-      ? 1
-      : a.playerTotalPoints > b.playerTotalPoints
-      ? -1
-      : a.playerTotalPoints < b.playerTotalPoints
-      ? 1
-      : 0
+        ? 1
+        : a.playerTotalPoints > b.playerTotalPoints
+          ? -1
+          : a.playerTotalPoints < b.playerTotalPoints
+            ? 1
+            : 0
   );
 
   function handleAllPlayersNewScores(newScore) {
@@ -866,8 +868,8 @@ function App() {
       newScore.action === 'add'
         ? subtractNumbers(newScore.team1Score, newScore.team2Score)
         : newScore.action === 'delete'
-        ? subtractNumbers(newScore.team2Score, newScore.team1Score)
-        : 0;
+          ? subtractNumbers(newScore.team2Score, newScore.team1Score)
+          : 0;
 
     let team2NetPoints = -team1NetPoints;
 
@@ -877,10 +879,10 @@ function App() {
           ? 1
           : 0
         : newScore.action === 'delete'
-        ? team1NetPoints < 0
-          ? -1
-          : 0
-        : 0;
+          ? team1NetPoints < 0
+            ? -1
+            : 0
+          : 0;
 
     let team2Win =
       newScore.action === 'add'
@@ -888,30 +890,30 @@ function App() {
           ? 1
           : 0
         : newScore.action === 'delete'
-        ? team2NetPoints < 0
-          ? -1
-          : 0
-        : 0;
+          ? team2NetPoints < 0
+            ? -1
+            : 0
+          : 0;
 
     //Calculate net points and wins for Player 1
     function handlePlayer1NewScore() {
       return newScore.team1FirstPlayer === player1
         ? setPlayer1TotalPoints(
-            addNumbers(player1TotalPoints, team1NetPoints)
-          ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team1Win))
+          addNumbers(player1TotalPoints, team1NetPoints)
+        ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team1Win))
         : newScore.team1SecondPlayer === player1
-        ? setPlayer1TotalPoints(
+          ? setPlayer1TotalPoints(
             addNumbers(player1TotalPoints, team1NetPoints)
           ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team1Win))
-        : newScore.team2FirstPlayer === player1
-        ? setPlayer1TotalPoints(
-            addNumbers(player1TotalPoints, team2NetPoints)
-          ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team2Win))
-        : newScore.team2SecondPlayer === player1
-        ? setPlayer1TotalPoints(
-            addNumbers(player1TotalPoints, team2NetPoints)
-          ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team2Win))
-        : 0;
+          : newScore.team2FirstPlayer === player1
+            ? setPlayer1TotalPoints(
+              addNumbers(player1TotalPoints, team2NetPoints)
+            ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team2Win))
+            : newScore.team2SecondPlayer === player1
+              ? setPlayer1TotalPoints(
+                addNumbers(player1TotalPoints, team2NetPoints)
+              ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team2Win))
+              : 0;
     }
     handlePlayer1NewScore();
 
@@ -919,147 +921,147 @@ function App() {
     function handlePlayer2NewScore() {
       return newScore.team1FirstPlayer === player2
         ? setPlayer2TotalPoints(
-            addNumbers(player2TotalPoints, team1NetPoints)
-          ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team1Win))
+          addNumbers(player2TotalPoints, team1NetPoints)
+        ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team1Win))
         : newScore.team1SecondPlayer === player2
-        ? setPlayer2TotalPoints(
+          ? setPlayer2TotalPoints(
             addNumbers(player2TotalPoints, team1NetPoints)
           ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team1Win))
-        : newScore.team2FirstPlayer === player2
-        ? setPlayer2TotalPoints(
-            addNumbers(player2TotalPoints, team2NetPoints)
-          ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team2Win))
-        : newScore.team2SecondPlayer === player2
-        ? setPlayer2TotalPoints(
-            addNumbers(player2TotalPoints, team2NetPoints)
-          ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team2Win))
-        : 0;
+          : newScore.team2FirstPlayer === player2
+            ? setPlayer2TotalPoints(
+              addNumbers(player2TotalPoints, team2NetPoints)
+            ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team2Win))
+            : newScore.team2SecondPlayer === player2
+              ? setPlayer2TotalPoints(
+                addNumbers(player2TotalPoints, team2NetPoints)
+              ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team2Win))
+              : 0;
     }
     handlePlayer2NewScore();
 
     function handlePlayer3NewScore() {
       return newScore.team1FirstPlayer === player3
         ? setPlayer3TotalPoints(
-            addNumbers(player3TotalPoints, team1NetPoints)
-          ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team1Win))
+          addNumbers(player3TotalPoints, team1NetPoints)
+        ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team1Win))
         : newScore.team1SecondPlayer === player3
-        ? setPlayer3TotalPoints(
+          ? setPlayer3TotalPoints(
             addNumbers(player3TotalPoints, team1NetPoints)
           ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team1Win))
-        : newScore.team2FirstPlayer === player3
-        ? setPlayer3TotalPoints(
-            addNumbers(player3TotalPoints, team2NetPoints)
-          ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team2Win))
-        : newScore.team2SecondPlayer === player3
-        ? setPlayer3TotalPoints(
-            addNumbers(player3TotalPoints, team2NetPoints)
-          ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team2Win))
-        : 0;
+          : newScore.team2FirstPlayer === player3
+            ? setPlayer3TotalPoints(
+              addNumbers(player3TotalPoints, team2NetPoints)
+            ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team2Win))
+            : newScore.team2SecondPlayer === player3
+              ? setPlayer3TotalPoints(
+                addNumbers(player3TotalPoints, team2NetPoints)
+              ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team2Win))
+              : 0;
     }
     handlePlayer3NewScore();
 
     function handlePlayer4NewScore() {
       return newScore.team1FirstPlayer === player4
         ? setPlayer4TotalPoints(
-            addNumbers(player4TotalPoints, team1NetPoints)
-          ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team1Win))
+          addNumbers(player4TotalPoints, team1NetPoints)
+        ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team1Win))
         : newScore.team1SecondPlayer === player4
-        ? setPlayer4TotalPoints(
+          ? setPlayer4TotalPoints(
             addNumbers(player4TotalPoints, team1NetPoints)
           ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team1Win))
-        : newScore.team2FirstPlayer === player4
-        ? setPlayer4TotalPoints(
-            addNumbers(player4TotalPoints, team2NetPoints)
-          ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team2Win))
-        : newScore.team2SecondPlayer === player4
-        ? setPlayer4TotalPoints(
-            addNumbers(player4TotalPoints, team2NetPoints)
-          ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team2Win))
-        : 0;
+          : newScore.team2FirstPlayer === player4
+            ? setPlayer4TotalPoints(
+              addNumbers(player4TotalPoints, team2NetPoints)
+            ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team2Win))
+            : newScore.team2SecondPlayer === player4
+              ? setPlayer4TotalPoints(
+                addNumbers(player4TotalPoints, team2NetPoints)
+              ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team2Win))
+              : 0;
     }
     handlePlayer4NewScore();
 
     function handlePlayer5NewScore() {
       return newScore.team1FirstPlayer === player5
         ? setPlayer5TotalPoints(
-            addNumbers(player5TotalPoints, team1NetPoints)
-          ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team1Win))
+          addNumbers(player5TotalPoints, team1NetPoints)
+        ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team1Win))
         : newScore.team1SecondPlayer === player5
-        ? setPlayer5TotalPoints(
+          ? setPlayer5TotalPoints(
             addNumbers(player5TotalPoints, team1NetPoints)
           ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team1Win))
-        : newScore.team2FirstPlayer === player5
-        ? setPlayer5TotalPoints(
-            addNumbers(player5TotalPoints, team2NetPoints)
-          ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team2Win))
-        : newScore.team2SecondPlayer === player5
-        ? setPlayer5TotalPoints(
-            addNumbers(player5TotalPoints, team2NetPoints)
-          ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team2Win))
-        : 0;
+          : newScore.team2FirstPlayer === player5
+            ? setPlayer5TotalPoints(
+              addNumbers(player5TotalPoints, team2NetPoints)
+            ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team2Win))
+            : newScore.team2SecondPlayer === player5
+              ? setPlayer5TotalPoints(
+                addNumbers(player5TotalPoints, team2NetPoints)
+              ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team2Win))
+              : 0;
     }
     handlePlayer5NewScore();
 
     function handlePlayer6NewScore() {
       return newScore.team1FirstPlayer === player6
         ? setPlayer6TotalPoints(
-            addNumbers(player6TotalPoints, team1NetPoints)
-          ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team1Win))
+          addNumbers(player6TotalPoints, team1NetPoints)
+        ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team1Win))
         : newScore.team1SecondPlayer === player6
-        ? setPlayer6TotalPoints(
+          ? setPlayer6TotalPoints(
             addNumbers(player6TotalPoints, team1NetPoints)
           ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team1Win))
-        : newScore.team2FirstPlayer === player6
-        ? setPlayer6TotalPoints(
-            addNumbers(player6TotalPoints, team2NetPoints)
-          ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team2Win))
-        : newScore.team2SecondPlayer === player6
-        ? setPlayer6TotalPoints(
-            addNumbers(player6TotalPoints, team2NetPoints)
-          ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team2Win))
-        : 0;
+          : newScore.team2FirstPlayer === player6
+            ? setPlayer6TotalPoints(
+              addNumbers(player6TotalPoints, team2NetPoints)
+            ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team2Win))
+            : newScore.team2SecondPlayer === player6
+              ? setPlayer6TotalPoints(
+                addNumbers(player6TotalPoints, team2NetPoints)
+              ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team2Win))
+              : 0;
     }
     handlePlayer6NewScore();
 
     function handlePlayer7NewScore() {
       return newScore.team1FirstPlayer === player7
         ? setPlayer7TotalPoints(
-            addNumbers(player7TotalPoints, team1NetPoints)
-          ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team1Win))
+          addNumbers(player7TotalPoints, team1NetPoints)
+        ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team1Win))
         : newScore.team1SecondPlayer === player7
-        ? setPlayer7TotalPoints(
+          ? setPlayer7TotalPoints(
             addNumbers(player7TotalPoints, team1NetPoints)
           ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team1Win))
-        : newScore.team2FirstPlayer === player7
-        ? setPlayer7TotalPoints(
-            addNumbers(player7TotalPoints, team2NetPoints)
-          ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team2Win))
-        : newScore.team2SecondPlayer === player7
-        ? setPlayer7TotalPoints(
-            addNumbers(player7TotalPoints, team2NetPoints)
-          ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team2Win))
-        : 0;
+          : newScore.team2FirstPlayer === player7
+            ? setPlayer7TotalPoints(
+              addNumbers(player7TotalPoints, team2NetPoints)
+            ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team2Win))
+            : newScore.team2SecondPlayer === player7
+              ? setPlayer7TotalPoints(
+                addNumbers(player7TotalPoints, team2NetPoints)
+              ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team2Win))
+              : 0;
     }
     handlePlayer7NewScore();
 
     function handlePlayer8NewScore() {
       return newScore.team1FirstPlayer === player8
         ? setPlayer8TotalPoints(
-            addNumbers(player8TotalPoints, team1NetPoints)
-          ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team1Win))
+          addNumbers(player8TotalPoints, team1NetPoints)
+        ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team1Win))
         : newScore.team1SecondPlayer === player8
-        ? setPlayer8TotalPoints(
+          ? setPlayer8TotalPoints(
             addNumbers(player8TotalPoints, team1NetPoints)
           ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team1Win))
-        : newScore.team2FirstPlayer === player8
-        ? setPlayer8TotalPoints(
-            addNumbers(player8TotalPoints, team2NetPoints)
-          ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team2Win))
-        : newScore.team2SecondPlayer === player8
-        ? setPlayer8TotalPoints(
-            addNumbers(player8TotalPoints, team2NetPoints)
-          ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team2Win))
-        : 0;
+          : newScore.team2FirstPlayer === player8
+            ? setPlayer8TotalPoints(
+              addNumbers(player8TotalPoints, team2NetPoints)
+            ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team2Win))
+            : newScore.team2SecondPlayer === player8
+              ? setPlayer8TotalPoints(
+                addNumbers(player8TotalPoints, team2NetPoints)
+              ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team2Win))
+              : 0;
     }
     handlePlayer8NewScore();
   }
@@ -1198,239 +1200,242 @@ function App() {
   };
 
   return (
-    <Container maxWidth="md">
-      <Header />
-      <Grid container>
+    <>
+      <Container maxWidth="md">
+        <Header />
+        <Grid container>
+          {!playersAreSubmitted && (
+            <Grid item xs={12} mt={3}>
+              <h1>How many players today? </h1>
+              <Stack justifyContent="center" direction="row" mt={3} mb={2}>
+                <ButtonGroup fullwidth size="large" variant="contained">
+                  <Button onClick={handlePlayerCount} value="4" size="large">
+                    4
+                  </Button>
+                  <Button onClick={handlePlayerCount} value="5">
+                    5
+                  </Button>
+                  <Button onClick={handlePlayerCount} value="6">
+                    6
+                  </Button>
+                  <Button onClick={handlePlayerCount} value="7">
+                    7
+                  </Button>
+                  <Button onClick={handlePlayerCount} value="8">
+                    8
+                  </Button>
+                </ButtonGroup>
+              </Stack>
+            </Grid>
+          )}
+        </Grid>
+
         {!playersAreSubmitted && (
-          <Grid item xs={12} mt={3}>
-            <h1>How many players today? </h1>
-            <Stack justifyContent="center" direction="row" mt={3} mb={2}>
-              <ButtonGroup fullwidth size="large" variant="contained">
-                <Button onClick={handlePlayerCount} value="4" size="large">
-                  4
-                </Button>
-                <Button onClick={handlePlayerCount} value="5">
-                  5
-                </Button>
-                <Button onClick={handlePlayerCount} value="6">
-                  6
-                </Button>
-                <Button onClick={handlePlayerCount} value="7">
-                  7
-                </Button>
-                <Button onClick={handlePlayerCount} value="8">
-                  8
-                </Button>
-              </ButtonGroup>
-            </Stack>
+          <Grid container spacing={2}>
+            {inputsToShow.map(createPlayerInput)}
           </Grid>
         )}
-      </Grid>
-
-      {!playersAreSubmitted && (
-        <Grid container spacing={2}>
-          {inputsToShow.map(createPlayerInput)}
-        </Grid>
-      )}
-      {playerAlertOpen && (
-        <Alert
-          severity="warning"
-          onClose={() => {
-            setPlayerAlertOpen(false);
-          }}
-        >
-          Please enter player names!
-        </Alert>
-      )}
-      {playerCount > 0 && !playersAreSubmitted && (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Stack direction="row" justifyContent="center" mt={2} mb={6}>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={createSchedule}
-                type="submit"
-              >
-                Create Tournament Schedule
-              </Button>
-            </Stack>
-          </Grid>
-        </Grid>
-      )}
-
-      {!playersAreSubmitted && (
-        <Grid item xs={12} mt={8}>
-          <h3>What is this website for?</h3>
-          <br></br>
-          <p>Do you like to play beach volleyball with friends?</p>
-          <br></br>
-          <p>
-            Add a competitive edge to your game and play "King of The Beach"
-            style tournament where everyone has to compete against everyone.
-            This website helps to create tournament schedule for 4 to 8 players
-            (it's hard to get more friends together :) ).
-          </p>
-          <br></br>
-          <p>
-            "King of the Beach" tournament formula allows you to play equal
-            number of games against every opponent. You can choose number of
-            points necessary to win the match - 21 (standard) or 15 or even 11
-            for more dynamic speed of tournament. To change partners faster we
-            play only one set to win the match.
-          </p>
-          <br></br>
-          <p>
-            Depending on available time and how many players you have you can
-            add additional rounds.
-          </p>
-          <br></br>
-          <p>
-            After every game you submit the score and Kingofthebeach.me will
-            calculate the winners table. When the tournament is finished,
-            download the results to share them with friends via Whatsapp or
-            Messenger.
-          </p>
-          <br></br>
-          <p>Let's play!</p>
-        </Grid>
-      )}
-
-      {playersAreSubmitted && (
-        <Grid container spacing={2}>
-          <Grid item xs={12} mt={2}>
-            <h1 id="schedule">Tournament Schedule</h1>
-          </Grid>
-          {actualSchedule.map(createGame)}
-        </Grid>
-      )}
-      {playersAreSubmitted &&
-        playerCount < 6 &&
-        (playerCount < 5 ? !addFourthRound : !addThirdRound) && (
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12} mt={3}>
-              <h3>
-                Add more games?
-                <IconButton
-                  aria-label="add-games"
+        {playerAlertOpen && (
+          <Alert
+            severity="warning"
+            onClose={() => {
+              setPlayerAlertOpen(false);
+            }}
+          >
+            Please enter player names!
+          </Alert>
+        )}
+        {playerCount > 0 && !playersAreSubmitted && (
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Stack direction="row" justifyContent="center" mt={2} mb={6}>
+                <Button
+                  variant="contained"
                   size="large"
-                  color="primary"
-                  onClick={handleMoreGamesButton}
+                  onClick={createSchedule}
+                  type="submit"
                 >
-                  <AddCircleIcon fontSize="inherit" />
-                </IconButton>
-              </h3>
+                  Create Tournament Schedule
+                </Button>
+              </Stack>
             </Grid>
           </Grid>
         )}
 
-      <div id="download-results">
-        <Grid container>
-          <Grid item xs={12}>
-            {gameResultsAreSubmitted && (
-              <div className="game-scores" id="scores">
-                <h1>Game Scores</h1>
-                {gameScores.map(createResultsTable)}
-              </div>
-            )}
+        {!playersAreSubmitted && (
+          <Grid item xs={12} mt={8}>
+            <h3>What is this website for?</h3>
+            <br></br>
+            <p>Do you like to play beach volleyball with friends?</p>
+            <br></br>
+            <p>
+              Add a competitive edge to your game and play "King of The Beach"
+              style tournament where everyone has to compete against everyone.
+              This website helps to create tournament schedule for 4 to 8 players
+              (it's hard to get more friends together :) ).
+            </p>
+            <br></br>
+            <p>
+              "King of the Beach" tournament formula allows you to play equal
+              number of games against every opponent. You can choose number of
+              points necessary to win the match - 21 (standard) or 15 or even 11
+              for more dynamic speed of tournament. To change partners faster we
+              play only one set to win the match.
+            </p>
+            <br></br>
+            <p>
+              Depending on available time and how many players you have you can
+              add additional rounds.
+            </p>
+            <br></br>
+            <p>
+              After every game you submit the score and Kingofthebeach.me will
+              calculate the winners table. When the tournament is finished,
+              download the results to share them with friends via Whatsapp or
+              Messenger.
+            </p>
+            <br></br>
+            <p>Let's play!</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12}>
-            {gameResultsAreSubmitted && (
-              <div className="winners-table">
-                <h1 id="winners-table">Winners Table</h1>
-                <div className="result top">
-                  <Grid container>
-                    <Grid
-                      item
-                      xs={2}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                      pr={1}
-                    >
-                      <p>Place</p>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                      }}
-                      pl={1}
-                      pr={1}
-                    >
-                      <p>Player</p>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                      }}
-                      pl={1}
-                      pr={1}
-                    >
-                      <p>Wins</p>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                      }}
-                      pl={1}
-                    >
-                      <p>Net points</p>
-                    </Grid>
-                  </Grid>
-                </div>
-                {sortedPlayerResults.map(createWinnersTable)}
-              </div>
-            )}
-          </Grid>
-        </Grid>
-      </div>
+        )}
 
-      {gameResultsAreSubmitted && (
-        <Grid container>
-          <Grid item xs={12}>
-            <div className="under-winners-table">
-              <Button
-                size="small"
-                onClick={downloadResults}
-                startIcon={<DownloadIcon />}
-              >
-                Download results
-              </Button>
-            </div>
+        {playersAreSubmitted && (
+          <Grid container spacing={2}>
+            <Grid item xs={12} mt={2}>
+              <h1 id="schedule">Tournament Schedule</h1>
+            </Grid>
+            {actualSchedule.map(createGame)}
           </Grid>
-        </Grid>
-      )}
-
-      <Footer />
-      <Grid container>
-        <Grid item xs={12} mb={3}>
-          {gameResultsAreSubmitted && (
-            <SimpleBottomNavigation onRestart={handleRestartDialog} />
+        )}
+        {playersAreSubmitted &&
+          playerCount < 6 &&
+          (playerCount < 5 ? !addFourthRound : !addThirdRound) && (
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={12} mt={3}>
+                <h3>
+                  Add more games?
+                  <IconButton
+                    aria-label="add-games"
+                    size="large"
+                    color="primary"
+                    onClick={handleMoreGamesButton}
+                  >
+                    <AddCircleIcon fontSize="inherit" />
+                  </IconButton>
+                </h3>
+              </Grid>
+            </Grid>
           )}
-        </Grid>
-      </Grid>
 
-      {isRestartDialogOpen && <RestartDialog onChange={handleRestartDialog} />}
-    </Container>
+        <div id="download-results">
+          <Grid container>
+            <Grid item xs={12}>
+              {gameResultsAreSubmitted && (
+                <div className="game-scores" id="scores">
+                  <h1>Game Scores</h1>
+                  {gameScores.map(createResultsTable)}
+                </div>
+              )}
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12}>
+              {gameResultsAreSubmitted && (
+                <div className="winners-table">
+                  <h1 id="winners-table">Winners Table</h1>
+                  <div className="result top">
+                    <Grid container>
+                      <Grid
+                        item
+                        xs={2}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                        pr={1}
+                      >
+                        <p>Place</p>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={6}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
+                        }}
+                        pl={1}
+                        pr={1}
+                      >
+                        <p>Player</p>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={2}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
+                        }}
+                        pl={1}
+                        pr={1}
+                      >
+                        <p>Wins</p>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={2}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
+                        }}
+                        pl={1}
+                      >
+                        <p>Net points</p>
+                      </Grid>
+                    </Grid>
+                  </div>
+                  {sortedPlayerResults.map(createWinnersTable)}
+                </div>
+              )}
+            </Grid>
+          </Grid>
+        </div>
+
+        {gameResultsAreSubmitted && (
+          <Grid container>
+            <Grid item xs={12}>
+              <div className="under-winners-table">
+                <Button
+                  size="small"
+                  onClick={downloadResults}
+                  startIcon={<DownloadIcon />}
+                >
+                  Download results
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
+        )}
+
+        <Footer />
+        <Grid container>
+          <Grid item xs={12} mb={3}>
+            {gameResultsAreSubmitted && (
+              <SimpleBottomNavigation onRestart={handleRestartDialog} />
+            )}
+          </Grid>
+        </Grid>
+
+        {isRestartDialogOpen && <RestartDialog onChange={handleRestartDialog} />}
+      </Container>
+      <Analytics />
+    </>
   );
 }
 
