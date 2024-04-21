@@ -14,7 +14,11 @@
     "@vercel/analytics": "^1.2.2",
     "gh-pages": "^4.0.0",
     "html-to-image": "^1.9.0",
+<<<<<<< HEAD
     "next": "^14.2.2",
+=======
+    "next": "^13.5.6",
+>>>>>>> 279a84e37c0f3da5ed172e1667f134a8b157b262
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
