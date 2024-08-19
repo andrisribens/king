@@ -3,17 +3,15 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 html {
   font-family: 'Montserrat', sans-serif;
-  /* font-family: "Orbitron", sans-serif; */
 }
 
 body {
   background: #eee;
-  /* background-image: url('https://www.transparenttextures.com/patterns/tiny-grid.png'); */
   background-image: url('./tiny-grid.png');
 
-  /* padding: 0 16px; */
 }
 
 header {
@@ -54,6 +52,14 @@ h2 {
   font-family: 'Montserrat', sans-serif;
 }
 
+.main-title {
+  font-family: 'Orbitron';
+  text-align: center;
+  font-weight: 400;
+  margin: 30px auto;
+}
+
+
 .box-centered-content {
   display: flex;
   flex-direction: row;
@@ -91,7 +97,7 @@ h2 {
   background-color: #f9d571;
 }
 
-.game h1 {
+.game h2 {
   font-size: 2em;
   color: white;
   margin: 0 auto;

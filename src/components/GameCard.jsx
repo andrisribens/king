@@ -86,7 +86,7 @@ function GameCard(props) {
           justifyContent="space-between"
         >
           <span>
-            <h1>{props.gameNo}</h1>
+            <h2>{props.gameNo}</h2>
           </span>
           <Stack
             direction="column"

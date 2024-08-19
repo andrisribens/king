@@ -40,13 +40,16 @@ function App() {
     false,
     'playersAreSubmitted'
   );
+
   const [gameResultsAreSubmitted, setGameResultsAreSubmitted] = useStickyState(
     false,
     'gameResultsAreSubmitted'
   );
+
   const addNumbers = (a, b) => {
     return Number(a) + Number(b);
   };
+
   const subtractNumbers = (a, b) => {
     return Number(a) - Number(b);
   };
@@ -412,25 +415,26 @@ function App() {
     },
     {
       gameNo: 13,
+      team1FirstPlayer: player1,
+      team1SecondPlayer: player5,
+      team2FirstPlayer: player2,
+      team2SecondPlayer: player3,
+    },
+    {
+      gameNo: 14,
       team1FirstPlayer: player4,
       team1SecondPlayer: player3,
       team2FirstPlayer: player6,
       team2SecondPlayer: player1,
     },
     {
-      gameNo: 14,
+      gameNo: 15,
       team1FirstPlayer: player2,
       team1SecondPlayer: player4,
       team2FirstPlayer: player5,
       team2SecondPlayer: player6,
     },
-    {
-      gameNo: 15,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player3,
-    },
+
   ];
 
   //One round of seven player schedule scheme
@@ -1206,7 +1210,7 @@ function App() {
         <Grid container>
           {!playersAreSubmitted && (
             <Grid item xs={12} mt={3}>
-              <h1>How many players today? </h1>
+              <h2 className='main-title'>How many players today? </h2>
               <Stack justifyContent="center" direction="row" mt={3} mb={2}>
                 <ButtonGroup fullwidth size="large" variant="contained">
                   <Button onClick={handlePlayerCount} value="4" size="large">
