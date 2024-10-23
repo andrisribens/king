@@ -25,11 +25,11 @@ function RestartDialog(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'Sure about restarting the Tournament?'}
+          {'Sure about restarting?'}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            By clicking "Restart" all data will be removed.
+            By clicking "Restart" all data will be removed. And you can start a new tournament.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
