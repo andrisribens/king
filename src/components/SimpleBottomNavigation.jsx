@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -26,7 +26,7 @@ function SimpleBottomNavigation(props) {
     section.scrollIntoView({ block: "start" });
   };
 
-function openRestartDialog() {
+  function openRestartDialog() {
     props.onRestart();
   };
 
@@ -50,17 +50,20 @@ function openRestartDialog() {
             onClick={scrollToSchedule}
           />
           <BottomNavigationAction
-            label="Game Scores"
+            label="Scores"
             icon={<ScoreboardIcon />}
             onClick={scrollToScores}
+            disabled={!props.gameResultsAreSubmitted}
+
           />
           <BottomNavigationAction
-            label="Winners Table"
+            label="Winners"
             icon={<EmojiEventsOutlinedIcon />}
             onClick={scrollToWinners}
+            disabled={!props.gameResultsAreSubmitted}
           />
           <BottomNavigationAction
-            label="Restart Tournament"
+            label="Restart"
             icon={<RestartAltIcon />}
             onClick={openRestartDialog}
           />

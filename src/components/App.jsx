@@ -1430,8 +1430,8 @@ function App() {
         <Footer />
         <Grid container>
           <Grid item xs={12} mb={3}>
-            {gameResultsAreSubmitted && (
-              <SimpleBottomNavigation onRestart={handleRestartDialog} />
+            {playersAreSubmitted && (
+              <SimpleBottomNavigation onRestart={handleRestartDialog} gameResultsAreSubmitted={gameResultsAreSubmitted} />
             )}
           </Grid>
         </Grid>
