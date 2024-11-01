@@ -12,7 +12,17 @@ html {
 body {
   background: #eee;
   background-image: url('./tiny-grid.png');
+  position: relative;
+  min-height: 100dvh;
+}
 
+body:before {
+position: absolute;
+content: "";
+inset: 0;
+background-color: white;
+opacity: 0.2;
+z-index: -1;
 }
 
 header {

@@ -45,7 +45,7 @@ function SimpleBottomNavigation(props) {
           }}
         >
           <BottomNavigationAction
-            label="Schedule"
+            label="Games"
             icon={<ScheduleIcon />}
             onClick={scrollToSchedule}
           />
