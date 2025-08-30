@@ -1100,7 +1100,6 @@ function App() {
   }
 
   // When editing the game score the specific game gets deleted from gameScores array
-  // const [deletedGameScore, setDeletedGameScore] = useState({});
 
   function deleteGameScore(id) {
     const newDeletedGameScore = gameScores.find((gameScoreItem) => {
@@ -1113,8 +1112,6 @@ function App() {
       newDeletedGameScore,
       deleteAction
     );
-
-    // setDeletedGameScore(updatedDeletedScore);
 
     //Define variable newScore from wich wins and net points for all players are calculated
     //when adding or editing (deleting) game score
@@ -1212,7 +1209,7 @@ function App() {
             <Grid item xs={12} mt={3}>
               <h2 className='main-title'>How many players today? </h2>
               <Stack justifyContent="center" direction="row" mt={3} mb={2}>
-                <ButtonGroup fullwidth size="large" variant="contained">
+                <ButtonGroup fullwidth="true" size="large" variant="contained">
                   <Button onClick={handlePlayerCount} value="4" size="large">
                     4
                   </Button>

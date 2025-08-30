@@ -44,12 +44,30 @@ header p {
   color: #fff;
 }
 
+footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
 footer p {
   font-family: 'Orbitron';
   text-align: right;
-  font-size: 0.6em;
+  font-size: .8em;
   color: #bdc1bf;
-  margin-bottom: 50px;
+}
+
+footer p a {
+  color: #f5ba13;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all .3s;
+}
+
+footer p a:hover {
+  text-decoration: underline;
 }
 
 h1 {
