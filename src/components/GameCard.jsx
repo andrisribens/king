@@ -109,15 +109,25 @@ function GameCard(props) {
           <Stack direction="column" spacing={2}>
             <TextField
               disabled={isButtonPressed}
-              id="outlined-number"
-              type="number"
+              id={`team1-score-${props.gameNo}`}
+              type="text"
               label="Team 1 score"
               autoFocus={props.gameNo === 1}
               InputLabelProps={{
                 shrink: true,
               }}
+              inputProps={{
+                inputMode: "numeric",
+                pattern: "[0-9]*",
+              }}
               variant="outlined"
-              onChange={handleScoreChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                // allow only digits
+                if (/^\d*$/.test(value)) {
+                  handleScoreChange(e);
+                }
+              }}
               value={inputScore.team1Score}
               name="team1Score"
               teamPlayer1={props.team1FirstPlayer}
@@ -131,14 +141,23 @@ function GameCard(props) {
             />
             <TextField
               disabled={isButtonPressed}
-              id="outlined-number"
-              type="number"
+              id={`team2-score-${props.gameNo}`}
+              type="text"
               label="Team 2 score"
               InputLabelProps={{
                 shrink: true,
               }}
+              inputProps={{
+                inputMode: "numeric",
+                pattern: "[0-9]*",
+              }}
               variant="outlined"
-              onChange={handleScoreChangeWithButtonActivation}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d*$/.test(value)) {
+                  handleScoreChangeWithButtonActivation(e);
+                }
+              }}
               value={inputScore.team2Score}
               name="team2Score"
               teamPlayer1={props.team2FirstPlayer}
