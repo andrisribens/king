@@ -203,7 +203,7 @@ h2 {
   box-shadow: var(--shadow-warm);
   padding: 15px 10px 10px;
   width: 100%;
-  margin: 16px auto;
+  margin: 8px auto;
   overflow-wrap: break-word;
   animation: grow 1s;
 }
@@ -279,6 +279,10 @@ h2 {
   color: #3d2900;
 }
 
+.game .team-names {
+  font-size: calc(0.95rem + 2px);
+}
+
 .team-name {
   overflow-wrap: anywhere;
 }
@@ -298,6 +302,10 @@ h2 {
 
   .team-names {
     font-size: 0.85rem;
+  }
+
+  .game .team-names {
+    font-size: calc(0.85rem + 2px);
   }
 }
 

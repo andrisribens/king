@@ -465,9 +465,17 @@ function App() {
                 <Button
                   size="medium"
                   variant="outlined"
-                  color="primary"
                   onClick={downloadResults}
                   startIcon={<DownloadIcon />}
+                  sx={{
+                    borderColor: 'rgba(92, 61, 0, 0.35)',
+                    color: '#5c3d00',
+                    fontWeight: 500,
+                    '&:hover': {
+                      borderColor: 'rgba(92, 61, 0, 0.55)',
+                      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                    },
+                  }}
                 >
                   Download results
                 </Button>
