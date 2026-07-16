@@ -36,7 +36,7 @@ function WinnersTableRow(props) {
           pr={1}
         >
           <div>
-            <p>{props.player}</p>
+            <p className="winner-name">{props.player}</p>
           </div>
         </Grid>
         <Grid

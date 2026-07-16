@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import * as htmlToImage from 'html-to-image';
+import React, { useState, Suspense, lazy } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Grid from '@mui/material/Grid';
@@ -10,659 +9,27 @@ import Stack from '@mui/material/Stack';
 import PlayerInputField from './PlayerInputField.jsx';
 import ResultCard from './ResultCard.jsx';
 import WinnersTableRow from './WinnersTableRow.jsx';
-import SimpleBottomNavigation from './SimpleBottomNavigation.jsx';
-import RestartDialog from './RestartDialog';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import Alert from '@mui/material/Alert';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import { Analytics } from '@vercel/analytics/react';
+import useStickyState from '../hooks/useStickyState';
+import { getActualSchedule } from '../schedules';
+import { computePlayerResults } from '../scoring';
 
+const SimpleBottomNavigation = lazy(() => import('./SimpleBottomNavigation.jsx'));
+const RestartDialog = lazy(() => import('./RestartDialog'));
 
 function App() {
-  function useStickyState(defaultValue, key) {
-    const [value, setValue] = useState(() => {
-      const stickyValue = window.localStorage.getItem(key);
-      return stickyValue !== null ? JSON.parse(stickyValue) : defaultValue;
-    });
-
-    useEffect(() => {
-      window.localStorage.setItem(key, JSON.stringify(value));
-    }, [key, value]);
-
-    return [value, setValue];
-  }
-
   const [playerCount, setPlayerCount] = useStickyState('', 'playercount');
   const [playerAlertOpen, setPlayerAlertOpen] = useState(false);
   const [playersAreSubmitted, setPlayersAreSubmitted] = useStickyState(
     false,
     'playersAreSubmitted'
   );
-
-  const [gameResultsAreSubmitted, setGameResultsAreSubmitted] = useStickyState(
-    false,
-    'gameResultsAreSubmitted'
-  );
-
-  const addNumbers = (a, b) => {
-    return Number(a) + Number(b);
-  };
-
-  const subtractNumbers = (a, b) => {
-    return Number(a) - Number(b);
-  };
-
-  const playerInputs = [
-    { id: 1, name: 'player1', value: '', label: 'Add Player 1' },
-    { id: 2, name: 'player2', value: '', label: 'Add Player 2' },
-    { id: 3, name: 'player3', value: '', label: 'Add Player 3' },
-    { id: 4, name: 'player4', value: '', label: 'Add Player 4' },
-    { id: 5, name: 'player5', value: '', label: 'Add Player 5' },
-    { id: 6, name: 'player6', value: '', label: 'Add Player 6' },
-    { id: 7, name: 'player7', value: '', label: 'Add Player 7' },
-    { id: 8, name: 'player8', value: '', label: 'Add Player 8' },
-  ];
-
-  const inputsToShow = playerInputs.filter(
-    (playerInput, id) => id < playerCount
-  );
-
-  function handlePlayerCount(event) {
-    setPlayerCount(
-      event.target.value === '8'
-        ? 8
-        : event.target.value === '7'
-          ? 7
-          : event.target.value === '6'
-            ? 6
-            : event.target.value === '5'
-              ? 5
-              : 4
-    );
-    return inputsToShow;
-  }
-
-  function createPlayerInput(playerInfo) {
-    return (
-      <PlayerInputField
-        key={playerInfo.id}
-        name={playerInfo.name}
-        label={playerInfo.label}
-        onChange={handleChange}
-      />
-    );
-  }
-
-  const [players, setPlayers] = useStickyState([], 'players');
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setPlayers((prevPlayer) => {
-      return {
-        ...prevPlayer,
-        [name]: value,
-      };
-    });
-  }
-
-  //Check if enough player names are entered
-  const enteredPlayersCount = Object.keys(players).length;
-
-  const handleSubmitPlayers = () =>
-    enteredPlayersCount === playerCount
-      ? setPlayersAreSubmitted(true) & setPlayerAlertOpen(false)
-      : setPlayerAlertOpen(true);
-
-  const player1 = players.player1;
-  const player2 = players.player2;
-  const player3 = players.player3;
-  const player4 = players.player4;
-  const player5 = players.player5;
-  const player6 = players.player6;
-  const player7 = players.player7;
-  const player8 = players.player8;
-
-  //Schedule formula gives:
-  //4 rounds for 4 players,
-  //3 rounds for 5 players,
-  //1 round for 6-8 players
-
-  //Four rounds of four player schedule scheme
-  const fourPlayerSchedule = [
-    {
-      gameNo: 1,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 2,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 3,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 4,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 5,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 6,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player2,
-    },
-    {
-      gameNo: 7,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 8,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 9,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 10,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 11,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 12,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player2,
-    },
-  ];
-
-  //Three rounds of five player schedule scheme
-  const fivePlayerSchedule = [
-    {
-      gameNo: 1,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 2,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 3,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 4,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 5,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 6,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 7,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 8,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 9,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 10,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 11,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 12,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 13,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 14,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 15,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player3,
-    },
-  ];
-
-  //One round of six player schedule scheme
-  const sixPlayerSchedule = [
-    {
-      gameNo: 1,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player6,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player2,
-    },
-    {
-      gameNo: 2,
-      team1FirstPlayer: player6,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player5,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 3,
-      team1FirstPlayer: player4,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 4,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player1,
-    },
-    {
-      gameNo: 5,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player6,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 6,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 7,
-      team1FirstPlayer: player5,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 8,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player6,
-      team2SecondPlayer: player1,
-    },
-    {
-      gameNo: 9,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player1,
-      team2FirstPlayer: player5,
-      team2SecondPlayer: player6,
-    },
-    {
-      gameNo: 10,
-      team1FirstPlayer: player6,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 11,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player6,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 12,
-      team1FirstPlayer: player6,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 13,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 14,
-      team1FirstPlayer: player4,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player6,
-      team2SecondPlayer: player1,
-    },
-    {
-      gameNo: 15,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player5,
-      team2SecondPlayer: player6,
-    },
-
-  ];
-
-  //One round of seven player schedule scheme
-  const sevenPlayerSchedule = [
-    {
-      gameNo: 1,
-      team1FirstPlayer: player4,
-      team1SecondPlayer: player7,
-      team2FirstPlayer: player5,
-      team2SecondPlayer: player6,
-    },
-    {
-      gameNo: 2,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 3,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player6,
-    },
-    {
-      gameNo: 4,
-      team1FirstPlayer: player4,
-      team1SecondPlayer: player6,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player3,
-    },
-    {
-      gameNo: 5,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player6,
-    },
-    {
-      gameNo: 6,
-      team1FirstPlayer: player4,
-      team1SecondPlayer: player7,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player2,
-    },
-    {
-      gameNo: 7,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player6,
-      team2FirstPlayer: player1,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 8,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player6,
-      team2SecondPlayer: player7,
-    },
-    {
-      gameNo: 9,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player7,
-    },
-    {
-      gameNo: 10,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player7,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 11,
-      team1FirstPlayer: player4,
-      team1SecondPlayer: player6,
-      team2FirstPlayer: player5,
-      team2SecondPlayer: player7,
-    },
-    {
-      gameNo: 12,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 13,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player6,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player7,
-    },
-    {
-      gameNo: 14,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player7,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player4,
-    },
-  ];
-
-  //One round of eight player schedule scheme
-  const eightPlayerSchedule = [
-    {
-      gameNo: 1,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player2,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player4,
-    },
-    {
-      gameNo: 2,
-      team1FirstPlayer: player5,
-      team1SecondPlayer: player6,
-      team2FirstPlayer: player7,
-      team2SecondPlayer: player8,
-    },
-    {
-      gameNo: 3,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player6,
-    },
-    {
-      gameNo: 4,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player7,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player8,
-    },
-    {
-      gameNo: 5,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player7,
-      team2FirstPlayer: player2,
-      team2SecondPlayer: player8,
-    },
-    {
-      gameNo: 6,
-      team1FirstPlayer: player3,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player6,
-    },
-    {
-      gameNo: 7,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player5,
-      team2SecondPlayer: player7,
-    },
-    {
-      gameNo: 8,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player6,
-      team2SecondPlayer: player8,
-    },
-    {
-      gameNo: 9,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player8,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player6,
-    },
-    {
-      gameNo: 10,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player7,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player5,
-    },
-    {
-      gameNo: 11,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player4,
-      team2FirstPlayer: player5,
-      team2SecondPlayer: player8,
-    },
-    {
-      gameNo: 12,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player3,
-      team2FirstPlayer: player6,
-      team2SecondPlayer: player7,
-    },
-    {
-      gameNo: 13,
-      team1FirstPlayer: player1,
-      team1SecondPlayer: player6,
-      team2FirstPlayer: player4,
-      team2SecondPlayer: player7,
-    },
-    {
-      gameNo: 14,
-      team1FirstPlayer: player2,
-      team1SecondPlayer: player5,
-      team2FirstPlayer: player3,
-      team2SecondPlayer: player8,
-    },
-  ];
-
-  //Filter schedule for one round tournament
-  const oneRoundFourPlayerSchedule = fourPlayerSchedule.filter((game) => {
-    return game.gameNo <= 3;
-  });
-  const oneRoundFivePlayerSchedule = fivePlayerSchedule.filter((game) => {
-    return game.gameNo <= 5;
-  });
-
-  //Filter schedule for two round tournament
-  const twoRoundFourPlayerSchedule = fourPlayerSchedule.filter((game) => {
-    return game.gameNo <= 6;
-  });
-  const twoRoundFivePlayerSchedule = fivePlayerSchedule.filter((game) => {
-    return game.gameNo <= 10;
-  });
-
-  //Filter schedule for three round tournament (applies only for 4 players)
-  const threeRoundFourPlayerSchedule = fourPlayerSchedule.filter((game) => {
-    return game.gameNo <= 9;
-  });
-
-  //State and function to handle button for second & third rounds of games
+  const [players, setPlayers] = useStickyState({}, 'players');
+  const [gameScores, setGameScores] = useStickyState([], 'gameScores');
   const [addSecondRound, setAddSecondRound] = useStickyState(
     false,
     'addSecondRound'
@@ -675,6 +42,63 @@ function App() {
     false,
     'addFourthRound'
   );
+  const [isRestartDialogOpen, setIsRestarDialogOpen] = useState(false);
+
+  const playerInputs = [
+    { id: 1, name: 'player1', label: 'Add Player 1' },
+    { id: 2, name: 'player2', label: 'Add Player 2' },
+    { id: 3, name: 'player3', label: 'Add Player 3' },
+    { id: 4, name: 'player4', label: 'Add Player 4' },
+    { id: 5, name: 'player5', label: 'Add Player 5' },
+    { id: 6, name: 'player6', label: 'Add Player 6' },
+    { id: 7, name: 'player7', label: 'Add Player 7' },
+    { id: 8, name: 'player8', label: 'Add Player 8' },
+  ];
+
+  const inputsToShow = playerInputs.filter(
+    (playerInput, id) => id < playerCount
+  );
+
+  function handlePlayerCount(event) {
+    setPlayerCount(Number(event.target.value));
+  }
+
+  function createPlayerInput(playerInfo) {
+    return (
+      <PlayerInputField
+        key={playerInfo.id}
+        name={playerInfo.name}
+        label={playerInfo.label}
+        value={players[playerInfo.name]}
+        onChange={handleChange}
+      />
+    );
+  }
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setPlayers((prevPlayer) => ({
+      ...prevPlayer,
+      [name]: value,
+    }));
+  }
+
+  const allPlayerNamesEntered =
+    playerCount > 0 &&
+    inputsToShow.every(
+      (input) => String(players[input.name] ?? '').trim() !== ''
+    );
+
+  const handleSubmitPlayers = () =>
+    allPlayerNamesEntered
+      ? setPlayersAreSubmitted(true) & setPlayerAlertOpen(false)
+      : setPlayerAlertOpen(true);
+
+  const actualSchedule = getActualSchedule(
+    playerCount,
+    { addSecondRound, addThirdRound, addFourthRound },
+    players
+  );
 
   const handleMoreGamesButton = () => {
     addThirdRound
@@ -684,37 +108,14 @@ function App() {
         : setAddSecondRound(true);
   };
 
-  const actualSchedule =
-    playerCount === 4
-      ? addFourthRound
-        ? fourPlayerSchedule
-        : addThirdRound
-          ? threeRoundFourPlayerSchedule
-          : addSecondRound
-            ? twoRoundFourPlayerSchedule
-            : oneRoundFourPlayerSchedule
-      : playerCount === 5
-        ? addSecondRound
-          ? addThirdRound
-            ? fivePlayerSchedule
-            : twoRoundFivePlayerSchedule
-          : oneRoundFivePlayerSchedule
-        : playerCount === 6
-          ? sixPlayerSchedule
-          : playerCount === 7
-            ? sevenPlayerSchedule
-            : eightPlayerSchedule;
-
   function createSchedule() {
     handleSubmitPlayers();
-    return actualSchedule;
   }
 
   function createGame(gameInfo) {
     return (
-      <Grid item xs={12} sm={6} lg={6}>
+      <Grid item xs={12} sm={6} lg={6} key={gameInfo.gameNo}>
         <GameCard
-          key={gameInfo.gameNo}
           id={gameInfo.gameNo}
           gameNo={gameInfo.gameNo}
           team1FirstPlayer={gameInfo.team1FirstPlayer}
@@ -728,405 +129,27 @@ function App() {
     );
   }
 
-  const [player1TotalPoints, setPlayer1TotalPoints] = useStickyState(
-    0,
-    'player1TotalPoints'
+  const gameResultsAreSubmitted = gameScores.length > 0;
+  const sortedPlayerResults = computePlayerResults(
+    gameScores,
+    players,
+    playerCount
   );
-  const [player2TotalPoints, setPlayer2TotalPoints] = useStickyState(
-    0,
-    'player2TotalPoints'
-  );
-  const [player3TotalPoints, setPlayer3TotalPoints] = useStickyState(
-    0,
-    'player3TotalPoints'
-  );
-  const [player4TotalPoints, setPlayer4TotalPoints] = useStickyState(
-    0,
-    'player4TotalPoints'
-  );
-  const [player5TotalPoints, setPlayer5TotalPoints] = useStickyState(
-    0,
-    'player5TotalPoints'
-  );
-  const [player6TotalPoints, setPlayer6TotalPoints] = useStickyState(
-    0,
-    'player6TotalPoints'
-  );
-  const [player7TotalPoints, setPlayer7TotalPoints] = useStickyState(
-    0,
-    'player7TotalPoints'
-  );
-  const [player8TotalPoints, setPlayer8TotalPoints] = useStickyState(
-    0,
-    'player8TotalPoints'
-  );
-
-  const [player1TotalWins, setPlayer1TotalWins] = useStickyState(
-    0,
-    'player1TotalWins'
-  );
-  const [player2TotalWins, setPlayer2TotalWins] = useStickyState(
-    0,
-    'player2TotalWins'
-  );
-  const [player3TotalWins, setPlayer3TotalWins] = useStickyState(
-    0,
-    'player3TotalWins'
-  );
-  const [player4TotalWins, setPlayer4TotalWins] = useStickyState(
-    0,
-    'player4TotalWins'
-  );
-  const [player5TotalWins, setPlayer5TotalWins] = useStickyState(
-    0,
-    'player5TotalWins'
-  );
-  const [player6TotalWins, setPlayer6TotalWins] = useStickyState(
-    0,
-    'player6TotalWins'
-  );
-  const [player7TotalWins, setPlayer7TotalWins] = useStickyState(
-    0,
-    'player7TotalWins'
-  );
-  const [player8TotalWins, setPlayer8TotalWins] = useStickyState(
-    0,
-    'player8TotalWins'
-  );
-
-  const playerResults = [
-    {
-      playerNo: 1,
-      player: player1,
-      playerTotalPoints: player1TotalPoints,
-      playerTotalWins: player1TotalWins,
-    },
-    {
-      playerNo: 2,
-      player: player2,
-      playerTotalPoints: player2TotalPoints,
-      playerTotalWins: player2TotalWins,
-    },
-    {
-      playerNo: 3,
-      player: player3,
-      playerTotalPoints: player3TotalPoints,
-      playerTotalWins: player3TotalWins,
-    },
-    {
-      playerNo: 4,
-      player: player4,
-      playerTotalPoints: player4TotalPoints,
-      playerTotalWins: player4TotalWins,
-    },
-    {
-      playerNo: 5,
-      player: player5,
-      playerTotalPoints: player5TotalPoints,
-      playerTotalWins: player5TotalWins,
-    },
-    {
-      playerNo: 6,
-      player: player6,
-      playerTotalPoints: player6TotalPoints,
-      playerTotalWins: player6TotalWins,
-    },
-    {
-      playerNo: 7,
-      player: player7,
-      playerTotalPoints: player7TotalPoints,
-      playerTotalWins: player7TotalWins,
-    },
-    {
-      playerNo: 8,
-      player: player8,
-      playerTotalPoints: player8TotalPoints,
-      playerTotalWins: player8TotalWins,
-    },
-  ];
-
-  //Reduce total number of elements in results array to the number of players
-  const playerResultsWithRightPlayerCount = playerResults.filter(
-    (playerResult) => {
-      return playerResult.playerNo <= playerCount;
-    }
-  );
-
-  //Sort the winners table descending by wins, then net points
-  const sortedPlayerResults = playerResultsWithRightPlayerCount.sort((a, b) =>
-    a.playerTotalWins > b.playerTotalWins
-      ? -1
-      : a.playerTotalWins < b.playerTotalWins
-        ? 1
-        : a.playerTotalPoints > b.playerTotalPoints
-          ? -1
-          : a.playerTotalPoints < b.playerTotalPoints
-            ? 1
-            : 0
-  );
-
-  function handleAllPlayersNewScores(newScore) {
-    //Calculate net points for the Team 1 and Team 2
-
-    let team1NetPoints =
-      newScore.action === 'add'
-        ? subtractNumbers(newScore.team1Score, newScore.team2Score)
-        : newScore.action === 'delete'
-          ? subtractNumbers(newScore.team2Score, newScore.team1Score)
-          : 0;
-
-    let team2NetPoints = -team1NetPoints;
-
-    let team1Win =
-      newScore.action === 'add'
-        ? team1NetPoints > 0
-          ? 1
-          : 0
-        : newScore.action === 'delete'
-          ? team1NetPoints < 0
-            ? -1
-            : 0
-          : 0;
-
-    let team2Win =
-      newScore.action === 'add'
-        ? team2NetPoints > 0
-          ? 1
-          : 0
-        : newScore.action === 'delete'
-          ? team2NetPoints < 0
-            ? -1
-            : 0
-          : 0;
-
-    //Calculate net points and wins for Player 1
-    function handlePlayer1NewScore() {
-      return newScore.team1FirstPlayer === player1
-        ? setPlayer1TotalPoints(
-          addNumbers(player1TotalPoints, team1NetPoints)
-        ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team1Win))
-        : newScore.team1SecondPlayer === player1
-          ? setPlayer1TotalPoints(
-            addNumbers(player1TotalPoints, team1NetPoints)
-          ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team1Win))
-          : newScore.team2FirstPlayer === player1
-            ? setPlayer1TotalPoints(
-              addNumbers(player1TotalPoints, team2NetPoints)
-            ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team2Win))
-            : newScore.team2SecondPlayer === player1
-              ? setPlayer1TotalPoints(
-                addNumbers(player1TotalPoints, team2NetPoints)
-              ) & setPlayer1TotalWins(addNumbers(player1TotalWins, team2Win))
-              : 0;
-    }
-    handlePlayer1NewScore();
-
-    //Calculate net points and wins for Player 2
-    function handlePlayer2NewScore() {
-      return newScore.team1FirstPlayer === player2
-        ? setPlayer2TotalPoints(
-          addNumbers(player2TotalPoints, team1NetPoints)
-        ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team1Win))
-        : newScore.team1SecondPlayer === player2
-          ? setPlayer2TotalPoints(
-            addNumbers(player2TotalPoints, team1NetPoints)
-          ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team1Win))
-          : newScore.team2FirstPlayer === player2
-            ? setPlayer2TotalPoints(
-              addNumbers(player2TotalPoints, team2NetPoints)
-            ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team2Win))
-            : newScore.team2SecondPlayer === player2
-              ? setPlayer2TotalPoints(
-                addNumbers(player2TotalPoints, team2NetPoints)
-              ) & setPlayer2TotalWins(addNumbers(player2TotalWins, team2Win))
-              : 0;
-    }
-    handlePlayer2NewScore();
-
-    function handlePlayer3NewScore() {
-      return newScore.team1FirstPlayer === player3
-        ? setPlayer3TotalPoints(
-          addNumbers(player3TotalPoints, team1NetPoints)
-        ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team1Win))
-        : newScore.team1SecondPlayer === player3
-          ? setPlayer3TotalPoints(
-            addNumbers(player3TotalPoints, team1NetPoints)
-          ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team1Win))
-          : newScore.team2FirstPlayer === player3
-            ? setPlayer3TotalPoints(
-              addNumbers(player3TotalPoints, team2NetPoints)
-            ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team2Win))
-            : newScore.team2SecondPlayer === player3
-              ? setPlayer3TotalPoints(
-                addNumbers(player3TotalPoints, team2NetPoints)
-              ) & setPlayer3TotalWins(addNumbers(player3TotalWins, team2Win))
-              : 0;
-    }
-    handlePlayer3NewScore();
-
-    function handlePlayer4NewScore() {
-      return newScore.team1FirstPlayer === player4
-        ? setPlayer4TotalPoints(
-          addNumbers(player4TotalPoints, team1NetPoints)
-        ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team1Win))
-        : newScore.team1SecondPlayer === player4
-          ? setPlayer4TotalPoints(
-            addNumbers(player4TotalPoints, team1NetPoints)
-          ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team1Win))
-          : newScore.team2FirstPlayer === player4
-            ? setPlayer4TotalPoints(
-              addNumbers(player4TotalPoints, team2NetPoints)
-            ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team2Win))
-            : newScore.team2SecondPlayer === player4
-              ? setPlayer4TotalPoints(
-                addNumbers(player4TotalPoints, team2NetPoints)
-              ) & setPlayer4TotalWins(addNumbers(player4TotalWins, team2Win))
-              : 0;
-    }
-    handlePlayer4NewScore();
-
-    function handlePlayer5NewScore() {
-      return newScore.team1FirstPlayer === player5
-        ? setPlayer5TotalPoints(
-          addNumbers(player5TotalPoints, team1NetPoints)
-        ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team1Win))
-        : newScore.team1SecondPlayer === player5
-          ? setPlayer5TotalPoints(
-            addNumbers(player5TotalPoints, team1NetPoints)
-          ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team1Win))
-          : newScore.team2FirstPlayer === player5
-            ? setPlayer5TotalPoints(
-              addNumbers(player5TotalPoints, team2NetPoints)
-            ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team2Win))
-            : newScore.team2SecondPlayer === player5
-              ? setPlayer5TotalPoints(
-                addNumbers(player5TotalPoints, team2NetPoints)
-              ) & setPlayer5TotalWins(addNumbers(player5TotalWins, team2Win))
-              : 0;
-    }
-    handlePlayer5NewScore();
-
-    function handlePlayer6NewScore() {
-      return newScore.team1FirstPlayer === player6
-        ? setPlayer6TotalPoints(
-          addNumbers(player6TotalPoints, team1NetPoints)
-        ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team1Win))
-        : newScore.team1SecondPlayer === player6
-          ? setPlayer6TotalPoints(
-            addNumbers(player6TotalPoints, team1NetPoints)
-          ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team1Win))
-          : newScore.team2FirstPlayer === player6
-            ? setPlayer6TotalPoints(
-              addNumbers(player6TotalPoints, team2NetPoints)
-            ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team2Win))
-            : newScore.team2SecondPlayer === player6
-              ? setPlayer6TotalPoints(
-                addNumbers(player6TotalPoints, team2NetPoints)
-              ) & setPlayer6TotalWins(addNumbers(player6TotalWins, team2Win))
-              : 0;
-    }
-    handlePlayer6NewScore();
-
-    function handlePlayer7NewScore() {
-      return newScore.team1FirstPlayer === player7
-        ? setPlayer7TotalPoints(
-          addNumbers(player7TotalPoints, team1NetPoints)
-        ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team1Win))
-        : newScore.team1SecondPlayer === player7
-          ? setPlayer7TotalPoints(
-            addNumbers(player7TotalPoints, team1NetPoints)
-          ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team1Win))
-          : newScore.team2FirstPlayer === player7
-            ? setPlayer7TotalPoints(
-              addNumbers(player7TotalPoints, team2NetPoints)
-            ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team2Win))
-            : newScore.team2SecondPlayer === player7
-              ? setPlayer7TotalPoints(
-                addNumbers(player7TotalPoints, team2NetPoints)
-              ) & setPlayer7TotalWins(addNumbers(player7TotalWins, team2Win))
-              : 0;
-    }
-    handlePlayer7NewScore();
-
-    function handlePlayer8NewScore() {
-      return newScore.team1FirstPlayer === player8
-        ? setPlayer8TotalPoints(
-          addNumbers(player8TotalPoints, team1NetPoints)
-        ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team1Win))
-        : newScore.team1SecondPlayer === player8
-          ? setPlayer8TotalPoints(
-            addNumbers(player8TotalPoints, team1NetPoints)
-          ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team1Win))
-          : newScore.team2FirstPlayer === player8
-            ? setPlayer8TotalPoints(
-              addNumbers(player8TotalPoints, team2NetPoints)
-            ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team2Win))
-            : newScore.team2SecondPlayer === player8
-              ? setPlayer8TotalPoints(
-                addNumbers(player8TotalPoints, team2NetPoints)
-              ) & setPlayer8TotalWins(addNumbers(player8TotalWins, team2Win))
-              : 0;
-    }
-    handlePlayer8NewScore();
-  }
-
-  const [gameScores, setGameScores] = useStickyState([], 'gameScores');
 
   function addGameScore(addedScore) {
-    const addAction = { action: 'add' };
-    const updatedAddedScore = Object.assign(addedScore, addAction);
-
-    let newScore = updatedAddedScore;
-
-    //Add one new game score to the array for rendering
-    setGameScores((prevScores) => {
-      return [...prevScores, updatedAddedScore];
-    });
-
-    //Set game scores in ascending order
-    setGameScores((prevScores) => {
-      return prevScores.sort((a, b) =>
-        a.gameNo > b.gamenNo ? 1 : a.gameNo < b.gameNo ? -1 : 0
-      );
-    });
-
-    handleAllPlayersNewScores(newScore);
-    handleResultsAreSubmitted();
+    setGameScores((prevScores) =>
+      [...prevScores, { ...addedScore, action: 'add' }].sort((a, b) =>
+        a.gameNo > b.gameNo ? 1 : a.gameNo < b.gameNo ? -1 : 0
+      )
+    );
   }
-
-  function handleResultsAreSubmitted() {
-    const gameResultsAreSubmitted = true;
-    setGameResultsAreSubmitted(gameResultsAreSubmitted);
-  }
-
-  // When editing the game score the specific game gets deleted from gameScores array
 
   function deleteGameScore(id) {
-    const newDeletedGameScore = gameScores.find((gameScoreItem) => {
-      return gameScoreItem.gameNo === id;
-    });
-
-    ///Change property "action" to be able to differentiate deleted scores from added scores
-    const deleteAction = { action: 'delete' };
-    const updatedDeletedScore = Object.assign(
-      newDeletedGameScore,
-      deleteAction
+    setGameScores((prevScores) =>
+      prevScores.filter((gameScoreItem) => gameScoreItem.gameNo !== id)
     );
-
-    //Define variable newScore from wich wins and net points for all players are calculated
-    //when adding or editing (deleting) game score
-    let newScore = updatedDeletedScore;
-
-    setGameScores((prevScores) => {
-      return prevScores.filter((gameScoreItem) => {
-        return gameScoreItem.gameNo !== id;
-      });
-    });
-
-    handleAllPlayersNewScores(newScore);
   }
 
-  // Create Results Table for every game with submitted score
   function createResultsTable(gameScoreItem) {
     return (
       <ResultCard
@@ -1143,10 +166,10 @@ function App() {
     );
   }
 
-  //Create Winners Table from individual player results
-  function createWinnersTable(winnerItem, index, newScore) {
+  function createWinnersTable(winnerItem, index) {
     return (
       <WinnersTableRow
+        key={winnerItem.playerNo}
         rowNo={index + 1}
         playerNo={winnerItem.playerNo}
         player={winnerItem.player}
@@ -1156,13 +179,10 @@ function App() {
     );
   }
 
-  const [isRestartDialogOpen, setIsRestarDialogOpen] = useState(false);
-
   function handleRestartDialog() {
     setIsRestarDialogOpen(!isRestartDialogOpen);
   }
 
-  //Get current time to generate unique results file name
   const time = new Date();
   const dateAndTime =
     time.getFullYear() +
@@ -1178,17 +198,12 @@ function App() {
     dateAndTime + '/KOB-tournament-results.jpg'
   ).toString();
 
-  //Transform html to jpg and download. This is for results table.
-  const downloadResults = () => {
-    var node = document.getElementById('download-results');
-
-    // function filter(node) {
-    //   return (node.className !== "dont-download");
-    // }
+  const downloadResults = async () => {
+    const node = document.getElementById('download-results');
+    const htmlToImage = await import('html-to-image');
 
     htmlToImage
       .toJpeg(node, {
-        // filter: filter,
         quality: 0.95,
         backgroundColor: '#FFFFFF',
       })
@@ -1207,25 +222,60 @@ function App() {
         <Grid container>
           {!playersAreSubmitted && (
             <Grid item xs={12} mt={3}>
-              <h2 className='main-title'>How many players today? </h2>
-              <Stack justifyContent="center" direction="row" mt={3} mb={2}>
-                <ButtonGroup fullwidth="true" size="large" variant="contained">
-                  <Button onClick={handlePlayerCount} value="4" size="large">
-                    4
-                  </Button>
-                  <Button onClick={handlePlayerCount} value="5">
-                    5
-                  </Button>
-                  <Button onClick={handlePlayerCount} value="6">
-                    6
-                  </Button>
-                  <Button onClick={handlePlayerCount} value="7">
-                    7
-                  </Button>
-                  <Button onClick={handlePlayerCount} value="8">
-                    8
-                  </Button>
-                </ButtonGroup>
+              <h2 className="main-title">How many players today? </h2>
+              <Stack
+                justifyContent="center"
+                direction="row"
+                spacing={1.5}
+                mt={3}
+                mb={2}
+                flexWrap="wrap"
+                useFlexGap
+              >
+                {[4, 5, 6, 7, 8].map((count) => {
+                  const selected = Number(playerCount) === count;
+                  return (
+                    <Button
+                      key={count}
+                      onClick={handlePlayerCount}
+                      value={String(count)}
+                      size="large"
+                      variant={selected ? 'contained' : 'outlined'}
+                      color="primary"
+                      aria-pressed={selected}
+                      sx={{
+                        minWidth: 56,
+                        minHeight: 56,
+                        borderRadius: '14px',
+                        fontSize: '1.25rem',
+                        fontWeight: 700,
+                        fontFamily: "'Orbitron', sans-serif",
+                        ...(selected
+                          ? {
+                              color: '#fff',
+                              backgroundColor: '#3d2900',
+                              boxShadow: '0 2px 8px rgba(120, 70, 0, 0.28)',
+                              '&:hover': {
+                                backgroundColor: '#1a1a1a',
+                              },
+                            }
+                          : {
+                              color: '#5c3d00',
+                              borderColor: 'rgba(92, 61, 0, 0.22)',
+                              borderWidth: 1.5,
+                              backgroundColor: 'rgba(255, 255, 255, 0.65)',
+                              '&:hover': {
+                                borderWidth: 1.5,
+                                borderColor: 'rgba(92, 61, 0, 0.4)',
+                                backgroundColor: 'rgba(245, 186, 19, 0.18)',
+                              },
+                            }),
+                      }}
+                    >
+                      {count}
+                    </Button>
+                  );
+                })}
               </Stack>
             </Grid>
           )}
@@ -1413,7 +463,9 @@ function App() {
             <Grid item xs={12}>
               <div className="under-winners-table">
                 <Button
-                  size="small"
+                  size="medium"
+                  variant="outlined"
+                  color="primary"
                   onClick={downloadResults}
                   startIcon={<DownloadIcon />}
                 >
@@ -1428,12 +480,21 @@ function App() {
         <Grid container>
           <Grid item xs={12} mb={3}>
             {playersAreSubmitted && (
-              <SimpleBottomNavigation onRestart={handleRestartDialog} gameResultsAreSubmitted={gameResultsAreSubmitted} />
+              <Suspense fallback={null}>
+                <SimpleBottomNavigation
+                  onRestart={handleRestartDialog}
+                  gameResultsAreSubmitted={gameResultsAreSubmitted}
+                />
+              </Suspense>
             )}
           </Grid>
         </Grid>
 
-        {isRestartDialogOpen && <RestartDialog onChange={handleRestartDialog} />}
+        {isRestartDialogOpen && (
+          <Suspense fallback={null}>
+            <RestartDialog onChange={handleRestartDialog} />
+          </Suspense>
+        )}
       </Container>
       <Analytics />
     </>

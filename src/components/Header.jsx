@@ -1,16 +1,20 @@
-import React from "react";
-import logo from "../images/ball.svg";
+import React from 'react';
+import logo from '../images/ball.svg';
 
 function Header() {
   return (
-    <header>
-    <div className="box-centered-content">
-      <img src={logo} alt="Beach volley ball" height="30px" width="30px"/>
-    </div>
-    <div>
+    <header className="site-header">
+      <div className="site-header__content">
+        <img
+          className="site-header__ball"
+          src={logo}
+          alt=""
+          width={36}
+          height={36}
+        />
         <h1>King of The Beach</h1>
-        <p>Tournament Schedule & Scores</p>
-    </div>  
+        <p>Tournament Schedule &amp; Scores</p>
+      </div>
     </header>
   );
 }

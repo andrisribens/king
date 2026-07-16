@@ -1,0 +1,43 @@
+---
+description: King of the Beach stack, commands, and architecture map
+alwaysApply: true
+---
+
+# King of the Beach
+
+SPA for beach volleyball “King of the Beach” tournaments (4–8 players): schedule, scores, winners, image download. Live at kingofthebeach.me.
+
+## Stack
+
+- React 18 + Create React App (`react-scripts` 5), JavaScript/JSX (no TypeScript unless asked)
+- MUI v5 (`@mui/material`, icons), Emotion
+- `html-to-image` for results download; `@vercel/analytics`
+- Package manager: **pnpm** (not npm/yarn). Node **22** (see `.nvmrc`)
+
+## Commands
+
+```bash
+pnpm install
+pnpm start    # CRA dev server
+pnpm build
+pnpm test
+```
+
+Do not eject CRA. Prefer `pnpm` in all install/script examples.
+
+## Architecture
+
+| Area | Path |
+|------|------|
+| Core flow | `src/components/App.jsx` |
+| Schedules | `src/schedules.js` |
+| Wins / net points | `src/scoring.js` |
+| Sticky state | `src/hooks/useStickyState.js` |
+| Per-game score UI | `src/components/GameCard.jsx` |
+| Other UI | `src/components/*.jsx` |
+| Brand / layout CSS | `public/styles.css` |
+| SEO / GTM / fonts | `public/index.html` |
+
+State persists via `useStickyState` + `localStorage`. `RestartDialog` calls `localStorage.clear()` — preserve that restart contract. Do not rename sticky keys without a migration plan.
+
+Match existing MUI + CSS patterns; do not greenfield-redesign unless asked.

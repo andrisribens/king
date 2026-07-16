@@ -1,0 +1,31 @@
+---
+description: Tournament schedules, scoring, and localStorage sticky keys
+globs: src/components/App.jsx,src/components/GameCard.jsx,src/components/WinnersTableRow.jsx,src/schedules.js,src/scoring.js,src/hooks/useStickyState.js
+alwaysApply: false
+---
+
+# Tournament logic
+
+## Schedules
+
+Matrices live in [`src/schedules.js`](src/schedules.js) as player-slot templates (1–8). Resolve names via `getActualSchedule`. Changing one count’s matrix must not alter another. Round flags:
+
+- `addSecondRound`, `addThirdRound`, `addFourthRound` (multi-round 4–5 player flows)
+
+## Scoring and winners
+
+Wins and net points are **derived** from `gameScores` in [`src/scoring.js`](src/scoring.js) (`computePlayerResults`). Do not reintroduce parallel sticky win/point counters. Sort: **wins descending**, then **net points descending**.
+
+Editing a score removes that game from `gameScores` then re-adds; totals recompute automatically.
+
+## Sticky keys (do not rename casually)
+
+**App:** `playercount`, `playersAreSubmitted`, `players`, `addSecondRound`, `addThirdRound`, `addFourthRound`, `gameScores`
+
+**GameCard (per game):** `inputScore{gameNo}`, `isButtonPressed{gameNo}`
+
+Shared hook: [`src/hooks/useStickyState.js`](src/hooks/useStickyState.js) (safe JSON.parse).
+
+Submit Score requires both team scores to be non-empty digits.
+
+When changing schedules or scoring, follow the `verify-tournament` skill checklist.

@@ -1,2 +1,4 @@
-User-agent: Googlebot
-Disallow: /nogooglebot/
+User-agent: *
+Allow: /
+
+Sitemap: https://kingofthebeach.me/sitemap.xml

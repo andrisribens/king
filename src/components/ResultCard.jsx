@@ -1,6 +1,15 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 
+function TeamNames({ first, second }) {
+  return (
+    <div className="team-names">
+      <span className="team-name">{first}</span>
+      <span className="team-name">{second}</span>
+    </div>
+  );
+}
+
 function ResultCard(props) {
   return (
     <div className="result">
@@ -30,9 +39,10 @@ function ResultCard(props) {
           pl={1}
           pr={1}
         >
-          <div>
-            <p>{props.team1FirstPlayer + ' + ' + props.team1SecondPlayer}</p>
-          </div>
+          <TeamNames
+            first={props.team1FirstPlayer}
+            second={props.team1SecondPlayer}
+          />
         </Grid>
         <Grid
           item
@@ -62,7 +72,10 @@ function ResultCard(props) {
           pl={1}
           pr={1}
         >
-          <p>{props.team2FirstPlayer + ' + ' + props.team2SecondPlayer}</p>
+          <TeamNames
+            first={props.team2FirstPlayer}
+            second={props.team2SecondPlayer}
+          />
         </Grid>
         <Grid
           item

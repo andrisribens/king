@@ -4,13 +4,77 @@
   box-sizing: border-box;
 }
 
+:root {
+  --brand-yellow: #f5ba13;
+  --brand-yellow-soft: #f9d571;
+  --brand-sand: #f7f1e6;
+  --brand-ink: #1a1a1a;
+  --brand-muted: #6b6f6d;
+  --shadow-warm: 0 2px 8px rgba(120, 70, 0, 0.18);
+}
+
+/* Self-hosted fonts (latin + latin-ext for Latvian diacritics) */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/montserrat-latin-ext-400.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/montserrat-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/montserrat-latin-ext-600.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/montserrat-latin-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/orbitron-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/orbitron-latin-700.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 html {
   font-family: 'Montserrat', sans-serif;
   scroll-behavior: smooth;
 }
 
 body {
-  background: #eee;
+  background: #f5f5f5;
   background-image: url('./tiny-grid.png');
   position: relative;
   min-height: 100dvh;
@@ -21,27 +85,72 @@ position: absolute;
 content: "";
 inset: 0;
 background-color: white;
-opacity: 0.2;
+opacity: 0.4;
 z-index: -1;
 }
 
-header {
-  background-color: #f5ba13;
+header.site-header,
+.site-header {
+  position: relative;
+  overflow: hidden;
   margin: auto -16px;
-  padding: 16px 32px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-
-header h1 {
+  padding: 24px 32px 28px;
   color: #fff;
-  font-family: 'Orbitron';
-  font-weight: 700;
-  margin: 0 auto;
-}
-
-header p {
   text-align: center;
+  box-shadow: 0 4px 14px rgba(120, 70, 0, 0.22);
+  background-color: #f5ba13;
+  background-image:
+    radial-gradient(ellipse 90% 70% at 50% 100%, #ffe08a 0%, transparent 55%),
+    radial-gradient(ellipse 120% 80% at 50% 0%, #e8a00a 0%, transparent 50%),
+    linear-gradient(180deg, #e59b0c 0%, #f5ba13 45%, #ffd56a 100%);
+}
+
+.site-header__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.site-header__ball {
+  display: block;
+  margin: 0 auto 10px;
+  filter: drop-shadow(0 1px 2px rgba(120, 60, 0, 0.2));
+}
+
+.site-header h1 {
   color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.35rem, 4.5vw, 2rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 auto 6px;
+  text-shadow: 0 1px 2px rgba(120, 60, 0, 0.25);
+}
+
+.site-header p {
+  margin: 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.95);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.75rem, 2.4vw, 0.95rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding: 18px 20px 22px;
+  }
+
+  .site-header__ball {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 8px;
+  }
 }
 
 footer {
@@ -56,11 +165,11 @@ footer p {
   font-family: 'Orbitron';
   text-align: right;
   font-size: .8em;
-  color: #bdc1bf;
+  color: var(--brand-muted);
 }
 
 footer p a {
-  color: #f5ba13;
+  color: var(--brand-yellow);
   font-weight: 600;
   text-decoration: none;
   transition: all .3s;
@@ -88,20 +197,10 @@ h2 {
   margin: 30px auto;
 }
 
-
-.box-centered-content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
 .game {
   background: hsl(44, 92%, 52%);
   border-radius: 7px;
-  box-shadow: 0 2px 5px #ccc;
+  box-shadow: var(--shadow-warm);
   padding: 15px 10px 10px;
   width: 100%;
   margin: 16px auto;
@@ -123,7 +222,7 @@ h2 {
 }
 
 .game.isbuttonpressed {
-  background-color: #f9d571;
+  background-color: var(--brand-yellow-soft);
 }
 
 .game h2 {
@@ -132,10 +231,80 @@ h2 {
   margin: 0 auto;
 }
 
+.game.isbuttonpressed h2 {
+  color: #5c3d00;
+}
+
+.game-number {
+  flex-shrink: 0;
+  min-width: 2rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.game-number h2 {
+  margin: 0;
+  line-height: 1;
+}
+
+.game-matchup-rows {
+  min-width: 0;
+}
+
+.game-team-row {
+  width: 100%;
+}
+
+.game-team-row .team-names {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.game-score-field {
+  flex: 0 0 min(132px, 38%);
+  max-width: min(132px, 38%);
+}
+
+.team-names {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #3d2900;
+}
+
+.team-name {
+  overflow-wrap: anywhere;
+}
+
+.result .team-names {
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+@media (max-width: 500px) {
+  .game-score-field {
+    flex-basis: min(118px, 42%);
+    max-width: min(118px, 42%);
+  }
+
+  .team-names {
+    font-size: 0.85rem;
+  }
+}
+
 .result {
-  background: #e7eff8;
+  background: var(--brand-sand);
   border-radius: 7px;
-  box-shadow: 0 2px 5px #ccc;
+  box-shadow: var(--shadow-warm);
   padding: 20px 10px;
   width: 100%;
   margin: 16px auto;
@@ -157,6 +326,12 @@ h2 {
 
 .top.result p {
   font-weight: bold;
+}
+
+.winner-name {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 @media only screen and (max-width: 500px) {
@@ -186,5 +361,5 @@ h2 {
 
 .bottom-navigation {
   z-index: 100;
-  /* height: 70px; */
+  padding-bottom: env(safe-area-inset-bottom);
 }

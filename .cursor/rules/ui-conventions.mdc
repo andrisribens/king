@@ -1,0 +1,30 @@
+---
+description: Brand and UI patterns for King of the Beach
+globs: src/components/**,public/styles.css,public/index.html
+alwaysApply: false
+---
+
+# UI conventions
+
+## Brand
+
+- Header: sunset yellow gradient band, volleyball icon, white Orbitron lockup — not the full OG JPG
+- Display font: **Orbitron**; body: **Montserrat**
+- Page background: `#f5f5f5` + `tiny-grid.png` with light white overlay
+- Fonts: self-hosted Montserrat + Orbitron in `public/fonts/` (see `styles.css` `@font-face`)
+- Accent / MUI primary: `#f5ba13` with dark contrast text `#1a1a1a` (never white on yellow)
+- CSS tokens in `styles.css`: `--brand-yellow`, `--brand-yellow-soft`, `--brand-sand`, `--shadow-warm`
+
+Extend this look; do not replace with a new design system unless asked.
+
+## Components
+
+- Prefer MUI v5 primitives already used (`Stack`, `Button`, `TextField`, `Divider`, etc.)
+- Match siblings: `GameCard`, `PlayerInputField`, `ResultCard`, `Header`, `Footer`, `SimpleBottomNavigation`
+- Keep score entry editable after submit; preserve sticky per-game state in `GameCard`
+
+## Layout / UX
+
+- Mobile-first: bottom nav show/hide, sticky score flow, readable forms on small screens
+- Alerts via existing snackbar patterns (`SnackbarAlert`)
+- Results download uses `html-to-image` with time-based filenames — preserve that behavior when touching export UI

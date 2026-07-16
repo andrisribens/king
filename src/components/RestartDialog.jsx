@@ -29,12 +29,15 @@ function RestartDialog(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            By clicking "Restart" all data will be removed. And you can start a new tournament.
+            By clicking "Restart" all data will be removed. And you can start a
+            new tournament.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleRestart} autoFocus>
+          <Button onClick={handleCancel} variant="outlined" autoFocus>
+            Cancel
+          </Button>
+          <Button onClick={handleRestart} variant="contained" color="error">
             Restart
           </Button>
         </DialogActions>

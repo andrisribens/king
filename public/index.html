@@ -2,48 +2,71 @@
 <html lang="en">
 
 <head>
-  <!-- Google Tag Manager -->
-  <script>
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || [];
-      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-      var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != 'dataLayer' ? '&l=' + l : '';
-      j.async = true;
-      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-MJGB58D');
-  </script>
-  <!-- End Google Tag Manager -->
-
   <meta charset="utf-8" />
   <meta name="viewport" content="initial-scale=1, width=device-width" />
   <title>King of The Beach Tournament. Schedule and Scores</title>
   <meta name="description"
     content="Create King of the Beach format beach volleyball tournament schedule for 4 to 8 beach volleyball players, register game results and calculate the winner. Free King of The Beach tournament schedule maker." />
-  <meta property="og:title" content="King of The Beach. Schedule & Scores" />
-  <meta property="og:url" content="https://kingofthebeach.me" />
-  <meta property="og:site_name" content="King of the Beach volleyball tournament schedule maker">
-  <meta property="og:description" content="Create tournament schedule, register results and calculate winners." />
-  <meta property="og:image" content="%PUBLIC_URL%/king-of-the-beach.jpg" />
-  <meta property="og:type" content="website" />
-  <meta property="twitter:image" content="%PUBLIC_URL%/king-of-the-beach.jpg">
-  <meta property="twitter:card" content="summary">
-  <meta property="twitter:title" content="King of The Beach. Schedule & Scores">
-  <meta property="twitter:description" content="Create tournament schedule, register results and calculate winners.">
+  <link rel="canonical" href="https://kingofthebeach.me/" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Orbitron:wght@400;600;900&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <meta property="og:title" content="King of The Beach. Schedule & Scores" />
+  <meta property="og:url" content="https://kingofthebeach.me/" />
+  <meta property="og:site_name" content="King of the Beach volleyball tournament schedule maker" />
+  <meta property="og:description" content="Create tournament schedule, register results and calculate winners." />
+  <meta property="og:image" content="https://kingofthebeach.me/king-of-the-beach.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://kingofthebeach.me/king-of-the-beach.jpg" />
+  <meta name="twitter:title" content="King of The Beach. Schedule & Scores" />
+  <meta name="twitter:description" content="Create tournament schedule, register results and calculate winners." />
+
+  <meta name="theme-color" content="#f5ba13" />
+
+  <link rel="preload" href="%PUBLIC_URL%/fonts/montserrat-latin-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="%PUBLIC_URL%/fonts/orbitron-latin-700.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="%PUBLIC_URL%/styles.css" />
   <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
   <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "King of the Beach",
+      "url": "https://kingofthebeach.me/",
+      "description": "Free King of the Beach beach volleyball tournament schedule maker for 4 to 8 players. Create schedules, enter scores, and calculate winners.",
+      "applicationCategory": "SportsApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "image": "https://kingofthebeach.me/king-of-the-beach.jpg"
+    }
+  </script>
+
+  <!-- Google Tag Manager — deferred until after first paint -->
+  <script>
+    window.addEventListener('load', function () {
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-MJGB58D');
+    });
+  </script>
 </head>
 
 <body>
@@ -53,8 +76,6 @@
   <!-- End Google Tag Manager (noscript) -->
 
   <div id="root"></div>
-  <script src="../src/index.js" type="text/jsx"></script>
-
 </body>
 
 </html>
