@@ -217,8 +217,8 @@ function App() {
 
   return (
     <>
+      <Header />
       <Container maxWidth="md">
-        <Header />
         <Grid container>
           {!playersAreSubmitted && (
             <Grid item xs={12} mt={3}>

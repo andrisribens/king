@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../images/ball.svg';
 
 function Header() {
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setCompact(window.scrollY > 24);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header
+      className={
+        compact ? 'site-header site-header--compact' : 'site-header'
+      }
+    >
       <div className="site-header__content">
         <img
           className="site-header__ball"
