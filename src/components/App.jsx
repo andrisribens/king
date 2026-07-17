@@ -1,4 +1,5 @@
 import React, { useState, Suspense, lazy } from 'react';
+import { flushSync } from 'react-dom';
 import Header from './Header';
 import ResultsBrandHeader from './ResultsBrandHeader';
 import Footer from './Footer';
@@ -44,6 +45,7 @@ function App() {
     'addFourthRound'
   );
   const [isRestartDialogOpen, setIsRestarDialogOpen] = useState(false);
+  const [isExportingResults, setIsExportingResults] = useState(false);
 
   const playerInputs = [
     { id: 1, name: 'player1', label: 'Add Player 1' },
@@ -201,10 +203,11 @@ function App() {
 
   const downloadResults = async () => {
     const node = document.getElementById('download-results');
-    const brandHeader = node?.querySelector('.results-brand-header');
     const htmlToImage = await import('html-to-image');
 
-    brandHeader?.classList.add('results-brand-header--exporting');
+    flushSync(() => {
+      setIsExportingResults(true);
+    });
 
     try {
       const dataUrl = await htmlToImage.toJpeg(node, {
@@ -216,7 +219,7 @@ function App() {
       link.href = dataUrl;
       link.click();
     } finally {
-      brandHeader?.classList.remove('results-brand-header--exporting');
+      setIsExportingResults(false);
     }
   };
 
@@ -385,7 +388,9 @@ function App() {
           )}
 
         <div id="download-results">
-          {gameResultsAreSubmitted && <ResultsBrandHeader />}
+          {gameResultsAreSubmitted && (
+            <ResultsBrandHeader exporting={isExportingResults} />
+          )}
           <Grid container>
             <Grid item xs={12}>
               {gameResultsAreSubmitted && (

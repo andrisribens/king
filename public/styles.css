@@ -154,7 +154,6 @@ header.site-header,
 }
 
 .results-brand-header {
-  display: none;
   overflow: hidden;
   width: 100%;
   margin: 0 auto 16px;
@@ -168,10 +167,6 @@ header.site-header,
     radial-gradient(ellipse 90% 70% at 50% 100%, #ffe08a 0%, transparent 55%),
     radial-gradient(ellipse 120% 80% at 50% 0%, #e8a00a 0%, transparent 50%),
     linear-gradient(180deg, #e59b0c 0%, #f5ba13 45%, #ffd56a 100%);
-}
-
-.results-brand-header--exporting {
-  display: block;
 }
 
 .results-brand-header__ball {

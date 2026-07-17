@@ -1,9 +1,14 @@
 import React from 'react';
 import logo from '../images/ball.svg';
 
-function ResultsBrandHeader() {
+function ResultsBrandHeader({ exporting = false }) {
   return (
-    <div className="results-brand-header">
+    <div
+      className="results-brand-header"
+      hidden={!exporting}
+      style={{ display: exporting ? 'block' : 'none' }}
+      aria-hidden={!exporting}
+    >
       <img
         className="results-brand-header__ball"
         src={logo}
