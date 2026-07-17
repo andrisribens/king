@@ -213,6 +213,15 @@ function App() {
       const dataUrl = await htmlToImage.toJpeg(node, {
         quality: 0.95,
         backgroundColor: '#FFFFFF',
+        width: node.scrollWidth,
+        height: node.scrollHeight,
+        style: {
+          margin: '0',
+          padding: '0 16px',
+          transform: 'none',
+        },
+        scrollX: 0,
+        scrollY: 0,
       });
       const link = document.createElement('a');
       link.download = resultsFileName;

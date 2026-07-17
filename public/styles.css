@@ -85,6 +85,12 @@ body {
   padding: 0 16px;
 }
 
+@media (max-width: 600px) {
+  .site-main {
+    padding: 0;
+  }
+}
+
 body:before {
 position: absolute;
 content: "";
@@ -311,6 +317,12 @@ h2 {
   animation: grow 1s;
 }
 
+@media (max-width: 600px) {
+  .game {
+    margin: 2px auto;
+  }
+}
+
 @keyframes grow {
   0% {
     opacity: 0;
@@ -501,4 +513,11 @@ h2 {
 #download-results {
   margin: 0 -16px;
   padding: 0 16px;
+}
+
+@media (max-width: 600px) {
+  #download-results {
+    margin: 0;
+    padding: 0;
+  }
 }
