@@ -1,5 +1,6 @@
 import React, { useState, Suspense, lazy } from 'react';
 import Header from './Header';
+import ResultsBrandHeader from './ResultsBrandHeader';
 import Footer from './Footer';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -200,25 +201,30 @@ function App() {
 
   const downloadResults = async () => {
     const node = document.getElementById('download-results');
+    const brandHeader = node?.querySelector('.results-brand-header');
     const htmlToImage = await import('html-to-image');
 
-    htmlToImage
-      .toJpeg(node, {
+    brandHeader?.classList.add('results-brand-header--exporting');
+
+    try {
+      const dataUrl = await htmlToImage.toJpeg(node, {
         quality: 0.95,
         backgroundColor: '#FFFFFF',
-      })
-      .then(function (dataUrl) {
-        var link = document.createElement('a');
-        link.download = resultsFileName;
-        link.href = dataUrl;
-        link.click();
       });
+      const link = document.createElement('a');
+      link.download = resultsFileName;
+      link.href = dataUrl;
+      link.click();
+    } finally {
+      brandHeader?.classList.remove('results-brand-header--exporting');
+    }
   };
 
   return (
     <>
       <Header />
-      <Container maxWidth="md">
+      <main className="site-main">
+      <Container maxWidth="lg">
         <Grid container>
           {!playersAreSubmitted && (
             <Grid item xs={12} mt={3}>
@@ -379,6 +385,7 @@ function App() {
           )}
 
         <div id="download-results">
+          {gameResultsAreSubmitted && <ResultsBrandHeader />}
           <Grid container>
             <Grid item xs={12}>
               {gameResultsAreSubmitted && (
@@ -504,6 +511,7 @@ function App() {
           </Suspense>
         )}
       </Container>
+      </main>
       <Analytics />
     </>
   );

@@ -64,6 +64,9 @@ function GameCard(props) {
 
   const scoreFieldSx = {
     width: '100%',
+    '& .MuiOutlinedInput-input': {
+      fontWeight: 700,
+    },
     '.MuiOutlinedInput-root.Mui-focused': {
       backgroundColor: '#f9d571',
     },

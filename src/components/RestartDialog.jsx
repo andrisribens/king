@@ -34,7 +34,20 @@ function RestartDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} variant="outlined" autoFocus>
+          <Button
+            onClick={handleCancel}
+            variant="outlined"
+            color="inherit"
+            autoFocus
+            sx={{
+              borderColor: 'rgba(0, 0, 0, 0.23)',
+              color: 'text.secondary',
+              '&:hover': {
+                borderColor: 'rgba(0, 0, 0, 0.4)',
+                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+              },
+            }}
+          >
             Cancel
           </Button>
           <Button onClick={handleRestart} variant="contained" color="error">
