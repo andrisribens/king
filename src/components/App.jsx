@@ -203,22 +203,62 @@ function App() {
 
   const downloadResults = async () => {
     const node = document.getElementById('download-results');
+    if (!node) return;
+
     const htmlToImage = await import('html-to-image');
 
     flushSync(() => {
       setIsExportingResults(true);
     });
 
+    const previous = {
+      margin: node.style.margin,
+      padding: node.style.padding,
+      width: node.style.width,
+      maxWidth: node.style.maxWidth,
+      boxSizing: node.style.boxSizing,
+      transform: node.style.transform,
+      overflow: node.style.overflow,
+    };
+
+    const sidePad = 10;
+
     try {
+      // Clear negative margin / overflow so full width is measurable
+      node.style.margin = '0';
+      node.style.padding = '0';
+      node.style.boxSizing = 'content-box';
+      node.style.width = '100%';
+      node.style.maxWidth = '100%';
+      node.style.transform = 'none';
+      node.style.overflow = 'visible';
+
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+
+      const contentWidth = Math.ceil(
+        Math.max(node.scrollWidth, node.offsetWidth, node.clientWidth)
+      );
+      const contentHeight = Math.ceil(
+        Math.max(node.scrollHeight, node.offsetHeight, node.clientHeight)
+      );
+      const width = contentWidth + sidePad * 2;
+      const height = contentHeight + sidePad * 2;
+
       const dataUrl = await htmlToImage.toJpeg(node, {
         quality: 0.95,
         backgroundColor: '#FFFFFF',
-        width: node.scrollWidth,
-        height: node.scrollHeight,
+        width,
+        height,
+        pixelRatio: 2,
         style: {
           margin: '0',
-          padding: '0 16px',
+          padding: `${sidePad}px`,
+          boxSizing: 'content-box',
+          width: `${contentWidth}px`,
+          maxWidth: 'none',
+          height: `${contentHeight}px`,
           transform: 'none',
+          overflow: 'visible',
         },
         scrollX: 0,
         scrollY: 0,
@@ -228,6 +268,13 @@ function App() {
       link.href = dataUrl;
       link.click();
     } finally {
+      node.style.margin = previous.margin;
+      node.style.padding = previous.padding;
+      node.style.width = previous.width;
+      node.style.maxWidth = previous.maxWidth;
+      node.style.boxSizing = previous.boxSizing;
+      node.style.transform = previous.transform;
+      node.style.overflow = previous.overflow;
       setIsExportingResults(false);
     }
   };
