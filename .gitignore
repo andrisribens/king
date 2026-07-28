@@ -22,3 +22,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /learning_discovery
+# pnpm local store
+.pnpm-store
