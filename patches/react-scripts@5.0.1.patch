@@ -1,0 +1,97 @@
+diff --git a/config/webpackDevServer.config.js b/config/webpackDevServer.config.js
+index 522a81b9b2b2723822513390a9d7e0fc38f75066..bd16a516e5deb4fe8d149fb28609c04574a42930 100644
+--- a/config/webpackDevServer.config.js
++++ b/config/webpackDevServer.config.js
+@@ -99,7 +99,16 @@ module.exports = function (proxy, allowedHost) {
+       publicPath: paths.publicUrlOrPath.slice(0, -1),
+     },
+ 
+-    https: getHttpsConfig(),
++    server: (() => {
++      const httpsConfig = getHttpsConfig();
++      if (httpsConfig === true) {
++        return 'https';
++      }
++      if (httpsConfig) {
++        return { type: 'https', options: httpsConfig };
++      }
++      return 'http';
++    })(),
+     host,
+     historyApiFallback: {
+       // Paths with dots should still use the history fallback.
+@@ -109,27 +118,31 @@ module.exports = function (proxy, allowedHost) {
+     },
+     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
+     proxy,
+-    onBeforeSetupMiddleware(devServer) {
+-      // Keep `evalSourceMapMiddleware`
+-      // middlewares before `redirectServedPath` otherwise will not have any effect
+-      // This lets us fetch source contents from webpack for the error overlay
+-      devServer.app.use(evalSourceMapMiddleware(devServer));
+-
++    setupMiddlewares(middlewares, devServer) {
+       if (fs.existsSync(paths.proxySetup)) {
+         // This registers user provided middleware for proxy reasons
+         require(paths.proxySetup)(devServer.app);
+       }
+-    },
+-    onAfterSetupMiddleware(devServer) {
+-      // Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
+-      devServer.app.use(redirectServedPath(paths.publicUrlOrPath));
+ 
+-      // This service worker file is effectively a 'no-op' that will reset any
+-      // previous service worker registered for the same host:port combination.
+-      // We do this in development to avoid hitting the production cache if
+-      // it used the same host and port.
+-      // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
+-      devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
++      middlewares.unshift(
++        // Keep `evalSourceMapMiddleware`
++        // middlewares before `redirectServedPath` otherwise will not have any effect
++        // This lets us fetch source contents from webpack for the error overlay
++        evalSourceMapMiddleware(devServer)
++      );
++
++      middlewares.push(
++        // Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
++        redirectServedPath(paths.publicUrlOrPath),
++        // This service worker file is effectively a 'no-op' that will reset any
++        // previous service worker registered for the same host:port combination.
++        // We do this in development to avoid hitting the production cache if
++        // it used the same host and port.
++        // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
++        noopServiceWorkerMiddleware(paths.publicUrlOrPath)
++      );
++
++      return middlewares;
+     },
+   };
+ };
+diff --git a/scripts/start.js b/scripts/start.js
+index 8b9a2c26b4df349bc81548ace0354900cf904693..13634a7b14bab859b5e43661af5da4a62aa3e8b3 100644
+--- a/scripts/start.js
++++ b/scripts/start.js
+@@ -141,16 +141,18 @@ checkBrowsers(paths.appPath, isInteractive)
+ 
+     ['SIGINT', 'SIGTERM'].forEach(function (sig) {
+       process.on(sig, function () {
+-        devServer.close();
+-        process.exit();
++        devServer.stopCallback(function () {
++          process.exit();
++        });
+       });
+     });
+ 
+     if (process.env.CI !== 'true') {
+       // Gracefully exit when stdin ends
+       process.stdin.on('end', function () {
+-        devServer.close();
+-        process.exit();
++        devServer.stopCallback(function () {
++          process.exit();
++        });
+       });
+     }
+   })
